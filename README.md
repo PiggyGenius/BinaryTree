@@ -14,3 +14,9 @@ v.2
 
 v.3
 	c(E) = min_eidansE{ pi + (c(ej < ei)+1)*somme_pj + (c(ek > ei)+1)*somme_pk }
+		ou
+	c(E) = min_eidansE{ c(ej < ei)*somme_pj + c(ek > ei)*somme_pk + 1 }
+
+		 = 1 si E = {ei}
+		 = 0 si E = vide
+
