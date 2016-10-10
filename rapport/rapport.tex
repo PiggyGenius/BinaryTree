@@ -41,31 +41,31 @@ Donc tout sous-arbre d'un ABR optimal est un ABR optimal.
 
 \subsubsection{Equation de Bellman}
 
-2 raisonnements différents nous ont conduit à 2 équations de Bellman différentes mais équivalentes.
+Deux raisonnements différents nous ont conduit à deux équations de Bellman différentes mais équivalentes. Nous les avons implémentées et on obtient des résultats identiques et corrects.\\
 \begin{itemize}
-	\item \textbf{Version 1} \\
+	\item[$\bullet$] \textbf{Version 1} \\
 		Dans un arbre A de racine $e_i$, on a :
 		\begin{itemize}
-			\item une probabilité \verb?proba_que_element_soit_e_i? de faire 1 comparaison (si l'élément cherché est $e_i$).
-			\item une probabilité \verb?proba_que_element_soit_dans_le_sous_arbre_gauche? de faire le nombre de comparaisons optimal du sous-arbre gauche, plus 1.
-			\item une probabilité \verb?proba_que_element_soit_dans_le_sous_arbre_droit? de faire le nombre de comparaisons optimal du sous-arbre droit, plus 1.
+			\item[$\bullet$] une probabilité \verb?proba_que_element_soit_e_i? de faire 1 comparaison (si l'élément cherché est $e_i$).
+			\item[$\bullet$] une probabilité \verb?proba_que_element_soit_dans_le_sous_arbre_gauche? de faire le nombre de comparaisons optimal du sous-arbre gauche, plus 1.
+			\item[$\bullet$] une probabilité \verb?proba_que_element_soit_dans_le_sous_arbre_droit? de faire le nombre de comparaisons optimal du sous-arbre droit, plus 1.
 		\end{itemize}
 
 		Soit $c(E)$ le nombre de comparaisons moyen optimal de l'arbre formé par les éléments de E. L'équation de Bellman est : 
-		\[ C(E) = min_{e_i \in E} ( \frac{p_i}{\sum\limits_{e_l \in E}{p_l}} + \frac{C(\{e_j < e_i\}) + 1}{\sum\limits_{e_l \in E}{p_l}} \sum_{e_j < e_i}{p_j} + \frac{C(\{e_k > e_i\}) + 1}{\sum\limits_{e_l \in E}{p_l}} \sum_{e_k > e_i}{p_k} ) \]
+		\[ C(E) = \min_{e_i \in E} ( \frac{p_i}{\sum\limits_{e_l \in E}{p_l}} + \frac{C(\{e_j < e_i\}) + 1}{\sum\limits_{e_l \in E}{p_l}} \sum_{e_j < e_i}{p_j} + \frac{C(\{e_k > e_i\}) + 1}{\sum\limits_{e_l \in E}{p_l}} \sum_{e_k > e_i}{p_k} ) \]
 		C'est-à-dire : 
-		\[ C(E) = min_{e_i \in E} ( 1 + \frac{C(\{e_j < e_i\})}{\sum\limits_{e_l \in E}{p_l}} \sum_{e_j < e_i}{p_j} + \frac{C(\{e_k > e_i\})}{\sum\limits_{e_l \in E}{p_l}} \sum_{e_k > e_i}{p_k} ) \]
+		\[ C(E) = \min_{e_i \in E} ( 1 + \frac{C(\{e_j < e_i\})}{\sum\limits_{e_l \in E}{p_l}} \sum_{e_j < e_i}{p_j} + \frac{C(\{e_k > e_i\})}{\sum\limits_{e_l \in E}{p_l}} \sum_{e_k > e_i}{p_k} ) \]
 		Conditions initiales : 
 		\begin{itemize}
 			\item $C(E) = 1$ si E ne contient qu'un élément (on ne fait alors qu'une comparaison).
 			\item $C(E) = 0$ si E est vide. \\
 		\end{itemize}
 
-	\item \textbf{Version 2} \\
+	\item[$\bullet$] \textbf{Version 2} \\
 		En transformant la formule donnée de calcul du nombre de comparaison moyen optimal en version récursive : 
 		Soit P la profondeur, initialisée à 1.
 		L'équation de Bellman est : 
-		\[ C(E, P) = min_{e_i \in E} ( p_i.P + C(\{e_j < e_i\}, P+1) + C(\{e_k > e_i\}, P+1) )\]
+		\[ C(E, P) = \min_{e_i \in E} ( p_i.P + C(\{e_j < e_i\}, P+1) + C(\{e_k > e_i\}, P+1) )\]
 		Conditions initiales : 
 		\begin{itemize}
 			\item $C(E) = p_i.P$ si $E = {e_i}$.
@@ -78,6 +78,24 @@ Donc tout sous-arbre d'un ABR optimal est un ABR optimal.
 
 
 \subsection{Question 2}
+
+\begin{itemize}
+	\item[$\bullet$] \textbf{Coût de la version 1}
+		\begin{itemize}
+			\item \textbf{En mémoire} : on stocke dans un tableau de taille $n$ par $n$ le nombre moyen optimal de comparaisons, ainsi que le noeud choisi en racine pour cet arbre. 
+				Par exemple, la position $(i, j)$ de ce tableau contiendra le nombre de comparaisons et la racine de l'abre formé par les éléments $e_i$ à $e_j$ 
+				(en supposant les $e_i$ ordonnés). On a donc un coût en mémoire de $\theta(n^2)$. \\
+			\item \textbf{En temps} : Pour chaque appel, on a de l'ordre de $k^2$ opérations à effectuer, avec $k$ le nombre d'éléments de E.
+				On remarque qu'on a $(n - k)$ appels avec $k$ éléments, donc le coût est $\sum\limits_{k=0}^{n} (n-k)k^2 = \frac{1}{12}n(n+1)(n^2+3n+2)$.
+				On a donc un coût en $\theta(n^4)$. \\
+		\end{itemize}
+	\item[$\bullet$] \textbf{Coût de la version 2}
+		\begin{itemize}
+			\item \textbf{En mémoire} : On a le même coût en mémoire qu'à la version 1 puisque la valeur optimale ne dépend pas de la profondeur. On est donc en $\theta(n^2)$.
+			\item \textbf{En temps} : Pour un seul appel, on a un coût en $\theta(1)$ et puisque l'on a $n^2$ appels, on a un coût total de l'ordre de $\theta(n^2)$.\\
+		\end{itemize}
+\end{itemize}
+\textbf{Conclusion} : On retient donc l'équation de la version 2 puisque elle propose une complexité plus avantageuse.
 
 \newpage
 
