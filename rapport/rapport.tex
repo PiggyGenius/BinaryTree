@@ -17,13 +17,69 @@
 
 \title{Rapport de TP 4MMAOD : Génération d'ABR optimal}
 \author{
-NOM Prénom étudiant$_1$ (groupe étudiant$_1$) 
-\\ NOM Prénom étudiant$_2$ (groupe étudiant$_2$) 
+	Maxime Deloche \\
+	Ludovic Carré \\
+	Equipe Teide 4
 }
 
 \begin{document}
 
 \maketitle
+
+\section{Équation de Bellman}
+
+\subsection{Question 1}
+
+\subsubsection{Montrons que tout sous-arbre d'un ABR optimal est un ABR optimal, par l'absurde.}
+
+Soit A un ABR optimal. On suppose qu'un sous-arbre S de A n'est pas optimal.
+Donc le nombre de comparaisons $x$ pour atteindre un élément $e$ de S n'est pas optimal dans S (notons cet optimal $x_{opt}$).
+Donc le nombre de comparaisons pour atteindre $e$ dans A est $x + 1$. Or, on pourrait atteindre $e$ en $x_{opt} + 1$, donc A n'est pas optimal, ce qui est absurde. \\
+
+Donc tout sous-arbre d'un ABR optimal est un ABR optimal.
+
+
+\subsubsection{Equation de Bellman}
+
+2 raisonnements différents nous ont conduit à 2 équations de Bellman différentes mais équivalentes.
+\begin{itemize}
+	\item \textbf{Version 1} \\
+		Dans un arbre A de racine $e_i$, on a :
+		\begin{itemize}
+			\item une probabilité \verb?proba_que_element_soit_e_i? de faire 1 comparaison (si l'élément cherché est $e_i$).
+			\item une probabilité \verb?proba_que_element_soit_dans_le_sous_arbre_gauche? de faire le nombre de comparaisons optimal du sous-arbre gauche, plus 1.
+			\item une probabilité \verb?proba_que_element_soit_dans_le_sous_arbre_droit? de faire le nombre de comparaisons optimal du sous-arbre droit, plus 1.
+		\end{itemize}
+
+		Soit $c(E)$ le nombre de comparaisons moyen optimal de l'arbre formé par les éléments de E. L'équation de Bellman est : 
+		\[ C(E) = min_{e_i \in E} ( \frac{p_i}{\sum\limits_{e_l \in E}{p_l}} + \frac{C(\{e_j < e_i\}) + 1}{\sum\limits_{e_l \in E}{p_l}} \sum_{e_j < e_i}{p_j} + \frac{C(\{e_k > e_i\}) + 1}{\sum\limits_{e_l \in E}{p_l}} \sum_{e_k > e_i}{p_k} ) \]
+		C'est-à-dire : 
+		\[ C(E) = min_{e_i \in E} ( 1 + \frac{C(\{e_j < e_i\})}{\sum\limits_{e_l \in E}{p_l}} \sum_{e_j < e_i}{p_j} + \frac{C(\{e_k > e_i\})}{\sum\limits_{e_l \in E}{p_l}} \sum_{e_k > e_i}{p_k} ) \]
+		Conditions initiales : 
+		\begin{itemize}
+			\item $C(E) = 1$ si E ne contient qu'un élément (on ne fait alors qu'une comparaison).
+			\item $C(E) = 0$ si E est vide. \\
+		\end{itemize}
+
+	\item \textbf{Version 2} \\
+		En transformant la formule donnée de calcul du nombre de comparaison moyen optimal en version récursive : 
+		Soit P la profondeur, initialisée à 1.
+		L'équation de Bellman est : 
+		\[ C(E, P) = min_{e_i \in E} ( p_i.P + C(\{e_j < e_i\}, P+1) + C(\{e_k > e_i\}, P+1) )\]
+		Conditions initiales : 
+		\begin{itemize}
+			\item $C(E) = p_i.P$ si $E = {e_i}$.
+			\item $C(E) = 0$ si E est vide. \\
+		\end{itemize}
+
+\end{itemize}
+
+
+
+
+\subsection{Question 2}
+
+\newpage
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \paragraph{\em Préambule}
