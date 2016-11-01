@@ -8,9 +8,22 @@ def strBSTroot(n):
 
 def strBSTtree(node, n):
     s = "static int BSTtree[" + str(n) + "][2] = { "
-    s += repr(node)
-    s += " };"
+    s += strNodes(node)
+    s = s[:-2] + " };"
     return s
+
+def strNodes(node):
+    s = ''
+    # left son
+    if node.children[LEFT] != None:
+        s += strNodes(node.children[LEFT]) + ", "
+    # node
+    s += repr(node)
+    # right son
+    if node.children[RIGHT] != None:
+        s += ", " + strNodes(node.children[RIGHT]) + ", " 
+    return s
+
     
 
 if __name__ == "__main__":

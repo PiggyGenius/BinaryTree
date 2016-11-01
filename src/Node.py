@@ -15,27 +15,17 @@ class Node:
         self.children[pos] = node
 
     def __repr__(self):
-        left = 0
-        right = 0
-
         s = "{"
         if self.children[LEFT] == None:
             s += "-1"
         else:
-            left = 1
             s += str(self.children[LEFT].value)
         s += "; "
         if self.children[RIGHT] == None:
             s += "-1"
         else:
-            right = 1
             s += str(self.children[RIGHT].value)
         s += "}"
-
-        if left == 1:
-            s += ", " + repr(self.children[LEFT])
-        if right == 1:
-            s += ", " + repr(self.children[RIGHT])
 
         return s
 
