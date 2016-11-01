@@ -8,6 +8,7 @@ class DataReader(object):
         self.access_array = []
         self.access_count = 0
 
+    # If we merge read and process, we don't have to store data_array !
     def read_file(self,filename):
         data_file = open(filename,'r')
         i = 0;
