@@ -1,4 +1,5 @@
-#rock(values,proba):
+#!/usr/bin/python3.5
+# -*-coding:Utf-8 -*
 
 def deloche(values,proba):
     l = len(values)
@@ -26,7 +27,6 @@ def carre(values,proba,d):
     return min(results)
 
 def getmin(v,p):
-    #print("Rock: %d\n",rock(values,p,length))
     print("Deloche: ",deloche(v,p))
     print("Carre: ",carre(v,p,1))
     print()
