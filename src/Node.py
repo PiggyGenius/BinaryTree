@@ -28,10 +28,8 @@ class Node:
         return s
 
 
-    def str_tree(self, n):
-        s = "static int BSTtree[" + str(n) + "][2] = { "
-        s += self.turn_to_str() + " };"
-        return s
+    def str_tree(self):
+        return "{ " + self.turn_to_str() + " };"
 
 
     def turn_to_str(self):
@@ -48,5 +46,7 @@ class Node:
 
 
     def str(self, n):
-        return "static int BSTroot = " + str(self.value) + ";\n" + self.str_tree(n);
+        return "static int BSTroot = " + str(self.value) + ";\n" + \
+               "static int BSTtree[" + str(n) + "][2] = " + \
+               self.str_tree()
      
