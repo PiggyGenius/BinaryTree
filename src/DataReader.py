@@ -22,5 +22,8 @@ class DataReader(object):
             self.access_array.append(access_value / self.access_count)
         return self.access_array
 
-    def get_access_array(self):
+    def access_array(self):
         return self.access_array
+
+    def access_string(self):
+        return str(self.access_array)
