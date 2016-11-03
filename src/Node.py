@@ -19,7 +19,7 @@ class Node:
             s += "-1"
         else:
             s += str(self.children[LEFT].value)
-        s += "; "
+        s += ", "
         if self.children[RIGHT] == None:
             s += "-1"
         else:
@@ -48,5 +48,7 @@ class Node:
         return self.value
 
     def str(self, n):
-        return "static int BSTroot = " + str(self.value) + ";\n" + self.str_tree(n);
+        return "static int BSTroot = " + str(self.value) + ";\n" + \
+               "static int BSTtree[" + str(n) + "][2] = " + \
+               self.str_tree()
      
