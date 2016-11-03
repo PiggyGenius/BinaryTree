@@ -16,6 +16,5 @@ dr.process_array()
 tree, val = average_depth(range(len(dr.access_array)),dr.access_array)
 
 graph_tree = GraphicalTree()
-print(tree.str_tree())
 graph_tree.create_tree(tree.str_tree())
 graph_tree.write_tree()

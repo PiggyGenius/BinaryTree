@@ -1,12 +1,14 @@
 #!/usr/bin/python3.5
 # -*-coding:Utf-8 -*
-
 from Node import *
+
+CALL_COUNT = 0
 
 def average_depth(values, proba):
 
     def average_depth_rec(i_low, i_high, depth):
-        
+        global CALL_COUNT
+        CALL_COUNT += 1
         diff = i_high - i_low
         if diff == 1:
             return Node(i_low), proba[i_low]*depth
@@ -33,10 +35,10 @@ def average_depth(values, proba):
         node = Node(min_index)
         node.add_child(LEFT, best_node_low)
         node.add_child(RIGHT, best_node_high)
-
         return node, min_val
-
-    return average_depth_rec(0, len(values), 1);
+    depth = average_depth_rec(0, len(values), 1);
+    print(CALL_COUNT)
+    return depth
 
 
 if __name__ == "__main__":
