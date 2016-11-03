@@ -19,7 +19,7 @@ class Node:
             s += "-1"
         else:
             s += str(self.children[LEFT].value)
-        s += "; "
+        s += ", "
         if self.children[RIGHT] == None:
             s += "-1"
         else:
