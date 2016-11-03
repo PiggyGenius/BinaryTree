@@ -13,16 +13,13 @@ class DataReader(object):
         data_file = open(filename,'r')
         i = 0;
         for line in data_file:
-            self.data_array.append(int(line))
-            self.access_count += int(line)
+            self.data_array.append(float(line))
+            self.access_count += float(line)
             i += 1
 
     def process_array(self):
         for access_value in self.data_array:
             self.access_array.append(access_value / self.access_count)
-        return self.access_array
-
-    def access_array(self):
         return self.access_array
 
     def access_string(self):

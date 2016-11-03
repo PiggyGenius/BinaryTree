@@ -38,7 +38,6 @@ def average_depth(values, proba):
 
         return node, min_val
 
-
     return average_depth_rec(0, len(values), 1);
 
 
