@@ -3,7 +3,7 @@
 import sys
 sys.path.insert(0,"src/")
 from Node import *
-from algorithm import *
+from AverageDepthCalculator import AverageDepthCalculator
 from DataReader import DataReader
 from GraphicalTree import GraphicalTree
 
@@ -13,8 +13,13 @@ dr = DataReader()
 dr.read_file("data/access_count.txt")
 dr.process_array()
 
-tree, val = average_depth(range(len(dr.access_array)),dr.access_array)
+depthcalc = AverageDepthCalculator()
+depthcalc.average_depth(dr.access_array)
+tree = depthcalc.root
 
 graph_tree = GraphicalTree()
 graph_tree.create_tree(tree.str_tree())
 graph_tree.write_tree()
+
+print("Average depth:" + str(depthcalc.avg_depth))
+print("Call number: " + str(depthcalc.call_count))
