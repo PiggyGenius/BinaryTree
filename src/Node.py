@@ -25,17 +25,12 @@ class Node:
         else:
             s += str(self.children[RIGHT].value)
         s += "}"
-
         return s
 
 
     def str_tree(self, n):
         s = "static int BSTtree[" + str(n) + "][2] = { "
-        s += self.turn_to_str()
-        if s[-2:] == ", ":
-            s = s[:-2] + " };"
-        else:
-            s += " };"
+        s += self.turn_to_str() + " };"
         return s
 
 
@@ -48,10 +43,10 @@ class Node:
         s += repr(self)
         # right son
         if self.children[RIGHT] != None:
-            s += ", " + self.children[RIGHT].turn_to_str() + ", " 
+            s += ", " + self.children[RIGHT].turn_to_str()
         return s
 
 
-    def str(node, n):
-        return "static int BSTroot = " + str(node.value) + ";\n" + node.str_tree(n);
+    def str(self, n):
+        return "static int BSTroot = " + str(self.value) + ";\n" + self.str_tree(n);
      
