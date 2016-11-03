@@ -18,7 +18,7 @@ def average_depth(values, proba):
         best_node_low, low = average_depth_rec(i_low, i_low, depth+1)
         best_node_high, high = average_depth_rec(i_low+1, i_high, depth+1)
         min_index = i_low
-        min_val = proba[0]*depth + low + high
+        min_val = proba[i_low]*depth + low + high
         
         for i in range(i_low+1, i_high):
             node_low, low = average_depth_rec(i_low, i, depth+1) 
