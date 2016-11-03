@@ -1,8 +1,6 @@
 #!/usr/bin/python3.5
 # -*-coding:Utf-8 -*
 
-import operator 
-import output
 from Node import *
 
 def average_depth(values, proba):
@@ -52,11 +50,7 @@ if __name__ == "__main__":
     p4 = [0.3,0.2,0.5]
     p5 = [0.1,0.3,0.6]
 
-    # print(average_depth(values, proba))
-    tree, val = average_depth(v, p1)
-    print(output.strAll(tree, len(v)))
-    print("\nBonus : average_depth = ", val)
-    # print(average_depth(v, p2))
-    # print(average_depth(v, p3))
-    # print(average_depth(v, p4))
-    # print(average_depth(v, p5))
+    for t in [p1, p2, p3, p4, p5]:
+        tree, val = average_depth(v, t)
+        print(tree.str(len(v)))
+        print("Bonus : average_depth = ", val, "\n")
