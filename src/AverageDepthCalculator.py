@@ -4,15 +4,15 @@ from Node import *
 
 class AverageDepthCalculator(object):
 
-    def __init__(self):
+    def __init__(self, proba):
         self.call_count = 0
         self.avg_depth = -1
-        self.root = None
-        self.proba = None
-
-    def average_depth(self, proba):
         self.proba = proba
-        self.root, self.avg_depth = self.average_depth_rec(0, len(proba), 1);
+        self.root = None
+        self.call_depth = []
+
+    def average_depth(self):
+        self.root, self.avg_depth = self.average_depth_rec(0, len(self.proba), 1);
 
     def average_depth_rec(self, i_low, i_high, depth):
         self.call_count += 1
@@ -30,7 +30,7 @@ class AverageDepthCalculator(object):
         min_val = self.proba[i_low]*depth + low + high
         
         for i in range(i_low+1, i_high):
-            node_low, low = self.average_depth_rec(i_low, i, depth+1) 
+            node_low, low = self.average_depth_rec(i_low, i, depth+1)
             node_high, high = self.average_depth_rec(i+1, i_high, depth+1)
             val = self.proba[i]*depth + low + high
             if val < min_val:

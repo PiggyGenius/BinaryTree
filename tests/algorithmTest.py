@@ -13,8 +13,8 @@ dr = DataReader()
 dr.read_file("data/access_count.txt")
 dr.process_array()
 
-depthcalc = AverageDepthCalculator()
-depthcalc.average_depth(dr.access_array)
+depthcalc = AverageDepthCalculator(dr.access_array)
+depthcalc.average_depth()
 tree = depthcalc.root
 
 graph_tree = GraphicalTree()
