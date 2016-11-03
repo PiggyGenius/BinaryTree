@@ -30,7 +30,7 @@ class AverageDepthCalculator(object):
         min_index = i_low
         min_val = self.proba[i_low]*depth + low + high
         
-        for i in range(i_low, i_high):
+        for i in range(i_low+1, i_high):
             low = self.average_depth_rec(i_low, i, depth+1) 
             high = self.average_depth_rec(i+1, i_high, depth+1)
             val = self.proba[i]*depth + low + high
