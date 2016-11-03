@@ -1,36 +1,52 @@
 #!/usr/bin/python3.5
 # -*-coding:Utf-8 -*
 
-def average_depth(values,proba,d):
-    l = len(values)
-    if l == 1:
-        return proba[0]*d
-    if l == 0:
-        return 0
-    results = [0]*l
-    for i in range(l):
-        low = average_depth(values[0:i],proba[0:i],d+1) 
-        high = average_depth(values[i+1:l],proba[i+1:l],d+1)
-        p = proba[i]*d
-        results[i] = p + low + high
-    return min(results)
+import operator 
 
-def getmin(v,p):
-    print("Average_depth: ",average_depth(v,p,1),'\n')
+def average_depth(values, proba):
+
+    def average_depth_rec(i_low, i_high, depth):
+        
+        diff = i_high - i_low
+        if diff == 1:
+            return proba[i_low]*depth
+        if diff == 0:
+            return 0
+        if diff < 0:
+            raise ValueError("BASTARD")
+
+        low = average_depth_rec(i_low, i_low, depth+1)
+        high = average_depth_rec(i_low+1, i_high, depth+1)
+        min_index = i_low
+        min_val = proba[0]*depth + low + high
+        
+        for i in range(i_low+1, i_high):
+            low = average_depth_rec(i_low, i, depth+1) 
+            high = average_depth_rec(i+1, i_high, depth+1)
+            val = proba[i]*depth + low + high
+            if val < min_val:
+                min_val = val
+                min_index = i
+
+        return min_val
+
+    return average_depth_rec(0, len(values), 1);
 
 
-values = [1,2,3,4,5,6,7,8]
-proba = [0.1,0.2,0.2,0.1,0.1,0.1,0.1,0.1]
-v = [1,2,3]
-p1 = [0.2,0.4,0.4]
-p2 = [0.5,0.3,0.2]
-p3 = [0.6,0.2,0.2]
-p4 = [0.3,0.2,0.5]
-p5 = [0.1,0.3,0.6]
+if __name__ == "__main__":
 
-getmin(values,proba)
-getmin(v,p1)
-getmin(v,p2)
-getmin(v,p3)
-getmin(v,p4)
-getmin(v,p5)
+    values = [1,2,3,4,5,6,7,8]
+    proba = [0.1,0.2,0.2,0.1,0.1,0.1,0.1,0.1]
+    v = [1,2,3]
+    p1 = [0.2,0.4,0.4]
+    p2 = [0.5,0.3,0.2]
+    p3 = [0.6,0.2,0.2]
+    p4 = [0.3,0.2,0.5]
+    p5 = [0.1,0.3,0.6]
+
+    print(average_depth(values, proba))
+    print(average_depth(v, p1))
+    print(average_depth(v, p2))
+    print(average_depth(v, p3))
+    print(average_depth(v, p4))
+    print(average_depth(v, p5))

@@ -4,9 +4,8 @@
 LEFT, RIGHT = 0, 1
 
 class Node:
-    def __init__(self, value, proba):
+    def __init__(self, value):
         self.value = value
-        self.proba = proba
         self.children = [None, None]
 
     def add_child(self, pos, node):
