@@ -2,6 +2,8 @@
 # -*-coding:Utf-8 -*
 
 import operator 
+import output
+from Node import *
 
 def average_depth(values, proba):
 
@@ -9,26 +11,33 @@ def average_depth(values, proba):
         
         diff = i_high - i_low
         if diff == 1:
-            return proba[i_low]*depth
+            return Node(i_low), proba[i_low]*depth
         if diff == 0:
-            return 0
+            return None, 0
         if diff < 0:
             raise ValueError("BASTARD")
 
-        low = average_depth_rec(i_low, i_low, depth+1)
-        high = average_depth_rec(i_low+1, i_high, depth+1)
+        best_node_low, low = average_depth_rec(i_low, i_low, depth+1)
+        best_node_high, high = average_depth_rec(i_low+1, i_high, depth+1)
         min_index = i_low
         min_val = proba[0]*depth + low + high
         
         for i in range(i_low+1, i_high):
-            low = average_depth_rec(i_low, i, depth+1) 
-            high = average_depth_rec(i+1, i_high, depth+1)
+            node_low, low = average_depth_rec(i_low, i, depth+1) 
+            node_high, high = average_depth_rec(i+1, i_high, depth+1)
             val = proba[i]*depth + low + high
             if val < min_val:
                 min_val = val
                 min_index = i
+                best_node_low = node_low
+                best_node_high = node_high
 
-        return min_val
+        node = Node(min_index)
+        node.add_child(LEFT, best_node_low)
+        node.add_child(RIGHT, best_node_high)
+
+        return node, min_val
+
 
     return average_depth_rec(0, len(values), 1);
 
@@ -44,9 +53,11 @@ if __name__ == "__main__":
     p4 = [0.3,0.2,0.5]
     p5 = [0.1,0.3,0.6]
 
-    print(average_depth(values, proba))
-    print(average_depth(v, p1))
-    print(average_depth(v, p2))
-    print(average_depth(v, p3))
-    print(average_depth(v, p4))
-    print(average_depth(v, p5))
+    # print(average_depth(values, proba))
+    tree, val = average_depth(v, p1)
+    print(output.strAll(tree, len(v)))
+    print("\nBonus : average_depth = ", val)
+    # print(average_depth(v, p2))
+    # print(average_depth(v, p3))
+    # print(average_depth(v, p4))
+    # print(average_depth(v, p5))
