@@ -8,9 +8,10 @@ class GraphicalTree(object):
 
     def create_tree(self,tree_string):
         tree_string = tree_string.replace(' ','')
+        tree_string = tree_string[0:len(tree_string)-3]
         tree_string = tree_string.replace('{','')
         tree_list = tree_string.split('},')
-        tree_list[len(tree_list)-1] = tree_list[len(tree_list)-1].replace('}}','');
+        print(tree_list)
         for i in range(len(tree_list)):
             values = tree_list[i].split(',')
             for j in range(2):

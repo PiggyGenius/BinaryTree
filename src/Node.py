@@ -50,7 +50,9 @@ class Node:
         if self.children[RIGHT] != None:
             s += ", " + self.children[RIGHT].turn_to_str() + ", " 
         return s
-
+    
+    def value(self):
+        return self.value
 
     def str(node, n):
         return "static int BSTroot = " + str(node.value) + ";\n" + node.str_tree(n);
