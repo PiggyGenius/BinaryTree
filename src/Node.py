@@ -28,3 +28,30 @@ class Node:
 
         return s
 
+
+    def str_tree(self, n):
+        s = "static int BSTtree[" + str(n) + "][2] = { "
+        s += self.turn_to_str()
+        if s[-2:] == ", ":
+            s = s[:-2] + " };"
+        else:
+            s += " };"
+        return s
+
+
+    def turn_to_str(self):
+        s = ''
+        # left son
+        if self.children[LEFT] != None:
+            s += self.children[LEFT].turn_to_str() + ", "
+        # node
+        s += repr(self)
+        # right son
+        if self.children[RIGHT] != None:
+            s += ", " + self.children[RIGHT].turn_to_str() + ", " 
+        return s
+
+
+    def str(node, n):
+        return "static int BSTroot = " + str(node.value) + ";\n" + node.str_tree(n);
+     
