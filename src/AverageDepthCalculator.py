@@ -9,8 +9,8 @@ class AverageDepthCalculator(object):
         self.avg_depth = -1
         self.proba = proba
         self.proba_calc = [[None] * (len(proba)+1)] * (len(proba)+1)
-        self.depth_array = [[None] * (len(proba)+1)] * len(proba)
-        self.depth_array2 = [[None] * (len(proba)+1)] * len(proba)
+        self.depth_array = [[None for i in range(len(proba)+1)] for j in range(len(proba))]
+        self.depth_array2 = [[None for i in range(len(proba)+1)] for j in range(len(proba))]
         self.root = None
 
     def average_depth(self):
@@ -30,7 +30,7 @@ class AverageDepthCalculator(object):
         print("Call count: ",self.call_count)
         self.call_count = 0
 
-        print("With memoisation depth_array: ",self.depth_array,'\n')
+        # print("With memoisation depth_array: ",self.depth_array,'\n')
         # print("No memoisation depth_array: ",self.depth_array2)
 
     def average_calc(self,low_index,high_index):
@@ -54,10 +54,6 @@ class AverageDepthCalculator(object):
                     min_result = new_result
             self.depth_array[low_index][high_index] = min_result
             # print(low_index,high_index,": ",min_result)
-        print(low_index,high_index,": ",self.depth_array[0][3])
-        print(low_index,high_index,": ",self.depth_array[1][3])
-        print(low_index,high_index,": ",self.depth_array[2][3])
-        print(low_index,high_index,": ",self.depth_array[3][3])
         return self.depth_array[low_index][high_index]
 
     def simple_average(self,values,proba):
