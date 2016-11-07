@@ -8,7 +8,7 @@ class AverageDepthCalculator(object):
         self.call_count = 0
         self.avg_depth = -1
         self.proba = proba
-        self.proba_calc = [[None] * (len(proba)+1)] * (len(proba)+1)
+        self.depth_array = [[None] * (len(proba)+1)] * (len(proba)+1)
         self.root = None
 
     def average_depth(self):
@@ -24,8 +24,12 @@ class AverageDepthCalculator(object):
         if low_index == high_index:
             return 0
 
+        if self.depth_array[low_index][high_index] != None:
+            return self.depth_array[low_index][high_index]
+
         lower = self.average_calc(low_index,low_index) * sum(self.proba[low_index:low_index]) / sum(self.proba[low_index:high_index])
         higher = self.average_calc(low_index+1,high_index) * sum(self.proba[low_index+1:high_index]) / sum(self.proba[low_index:high_index])
+
         min_result = 1 + lower + higher
         for i in range(low_index+1,high_index):
             lower = self.average_calc(low_index, i) * sum(self.proba[low_index:i])/sum(self.proba[low_index:high_index])
@@ -33,6 +37,8 @@ class AverageDepthCalculator(object):
             new_result = 1 + lower + higher
             if min_result > new_result:
                 min_result = new_result
+
+        self.depth_array[low_index][high_index] = min_result
         return min_result
 
 
