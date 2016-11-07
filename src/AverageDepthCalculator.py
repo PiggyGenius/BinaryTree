@@ -34,13 +34,13 @@ class AverageDepthCalculator(object):
         # print("No memoisation depth_array: ",self.depth_array2)
 
     def average_calc(self,low_index,high_index):
-        # print("Entering function: ",low_index,high_index)
+        #print("Entering function: ",low_index,high_index)
         self.call_count += 1
         if high_index - low_index <= 1:
             return high_index - low_index
 
         if self.depth_array[low_index][high_index] == None:
-            # print("Entering memoisation: ",low_index,high_index)
+            #print("Entering memoisation: ",low_index,high_index)
             total = sum(self.proba[low_index:high_index])
             lower = self.average_calc(low_index,low_index) * sum(self.proba[low_index:low_index]) / total
             higher = self.average_calc(low_index+1,high_index) * sum(self.proba[low_index+1:high_index]) / total
@@ -53,7 +53,11 @@ class AverageDepthCalculator(object):
                 if min_result > new_result:
                     min_result = new_result
             self.depth_array[low_index][high_index] = min_result
-            print(low_index,high_index,": ",min_result)
+            # print(low_index,high_index,": ",min_result)
+        print(low_index,high_index,": ",self.depth_array[0][3])
+        print(low_index,high_index,": ",self.depth_array[1][3])
+        print(low_index,high_index,": ",self.depth_array[2][3])
+        print(low_index,high_index,": ",self.depth_array[3][3])
         return self.depth_array[low_index][high_index]
 
     def simple_average(self,values,proba):
