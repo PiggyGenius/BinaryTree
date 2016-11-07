@@ -10,10 +10,12 @@ class AverageDepthCalculator(object):
         self.proba = proba
         self.proba_calc = [[None] * (len(proba)+1)] * (len(proba)+1)
         self.depth_array = [[None] * (len(proba)+1)] * len(proba)
+        self.depth_array2 = [[None] * (len(proba)+1)] * len(proba)
         self.root = None
 
     def average_depth(self):
         self.avg_depth = self.average_calc(0,len(self.proba))
+        print("Average no memoisation: ",self.average_calc_nomem(0,len(self.proba)))
         print("Simple average depth: ",self.simple_average(range(len(self.proba)),self.proba))
         print("Old average depth: ",self.old_average(0, len(self.proba), 1))
         self.root = Node(0)
@@ -27,8 +29,8 @@ class AverageDepthCalculator(object):
             total = sum(self.proba[low_index:high_index])
             lower = self.average_calc(low_index,low_index) * sum(self.proba[low_index:low_index]) / total
             higher = self.average_calc(low_index+1,high_index) * sum(self.proba[low_index+1:high_index]) / total
-            min_result = 1 + lower + higher
 
+            min_result = 1 + lower + higher
             for i in range(low_index+1, high_index):
                 lower = self.average_calc(low_index, i) * sum(self.proba[low_index:i]) / total
                 higher = self.average_calc(i+1, high_index) * sum(self.proba[i+1:high_index]) / total
@@ -36,8 +38,25 @@ class AverageDepthCalculator(object):
                 if min_result > new_result:
                     min_result = new_result
             self.depth_array[low_index][high_index] = min_result
-
         return self.depth_array[low_index][high_index]
+
+    def average_calc_nomem(self,low_index,high_index):
+        self.call_count += 1
+        if high_index - low_index <= 1:
+            return high_index - low_index
+        total = sum(self.proba[low_index:high_index])
+        lower = self.average_calc(low_index,low_index) * sum(self.proba[low_index:low_index]) / total
+        higher = self.average_calc(low_index+1,high_index) * sum(self.proba[low_index+1:high_index]) / total
+
+        min_result = 1 + lower + higher
+        for i in range(low_index+1, high_index):
+            lower = self.average_calc(low_index, i) * sum(self.proba[low_index:i]) / total
+            higher = self.average_calc(i+1, high_index) * sum(self.proba[i+1:high_index]) / total
+            new_result = 1 + lower + higher
+            if min_result > new_result:
+                min_result = new_result
+        return min_result
+
 
     def simple_average(self,values,proba):
         self.call_count += 1
