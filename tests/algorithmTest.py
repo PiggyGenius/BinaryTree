@@ -17,9 +17,6 @@ depthcalc = AverageDepthCalculator(dr.access_array)
 depthcalc.average_depth()
 tree = depthcalc.root
 
-graph_tree = GraphicalTree()
-graph_tree.create_tree(tree.str_tree())
-graph_tree.write_tree()
-
-print("Average depth:" + str(depthcalc.avg_depth))
-print("Call number: " + str(depthcalc.call_count))
+# graph_tree = GraphicalTree()
+# graph_tree.create_tree(tree.str_tree())
+# graph_tree.write_tree()
