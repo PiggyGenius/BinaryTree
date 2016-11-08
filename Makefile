@@ -38,7 +38,10 @@ report: $(PDF)
 doc: $(DOCDIR)/index.html
 
 averagetest: $(OBJ)
-	$(CC) -o $(BINDIR)/$@ $(wildcard $(BINDIR)/*.o) && $(BINDIR)/$@
+	$(CC) -o $(BINDIR)/$@ $(addprefix $(BINDIR)/, $^) && $(BINDIR)/$@
+
+tree_test: tree.o tree_test.o
+	$(CC) -o $(BINDIR)/$@ $(addprefix $(BINDIR)/, $^) && $(BINDIR)/$@
 
 %.o: $(SRCDIR)/%.c
 	$(CC) -o $(BINDIR)/$@ -c $< $(CFLAGS)
