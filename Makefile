@@ -16,7 +16,7 @@ PDF=$(LATEXSOURCE:.tex=.pdf)
 
 CC=gcc
 CFLAGS=-W -Wall -ansi -pedantic -std=c99 -lm -g
-SRC=datareader.c averagedepth.c averagetest.c
+SRC=datareader.c averagedepth.c averagetest.c list.c
 OBJ=$(SRC:.c=.o)
 
 all: binary report doc 

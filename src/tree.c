@@ -1,4 +1,4 @@
-#include "tree.h"
+#include "../inc/tree.h"
 
 Node* init(int value, float proba)
 {

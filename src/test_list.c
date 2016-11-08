@@ -1,6 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
-#include "list.h"
+#include "../inc/list.h"
 
 int main(void) {
 	List* l = init();

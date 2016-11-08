@@ -1,5 +1,5 @@
-#include <stdlib.h>
-#include <stdio.h>
+#ifndef NODE_H
+#define NODE_H
 
 typedef struct Node {
 	int value;
@@ -21,3 +21,5 @@ void free_tree(Node* n);
 
 // print the tree
 void print_tree(Node* n);
+
+#endif

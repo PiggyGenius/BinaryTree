@@ -2,36 +2,33 @@
 #include <stdlib.h>
 #include <stdint.h>
 #include "../inc/datareader.h"
+#include "../inc/list.h"
 
 probabilities* getproba(char* filename){
 	FILE* data;
 	uint32_t size;
-	double* values = NULL;
+	double value;
 	double total_value = 0;
+	probabilities* array = NULL;
+	List* values_list = NULL;
+	
 	data = fopen(filename,"r");
 	if(data == NULL){
 		fprintf(stderr,"The file doesn't exist or couldn't be opened.\n");
 		exit(EXIT_FAILURE);
 	}
 
+	/* We need to check scanf for a mysterious reason ? */
+	values_list = init();
 	for(size=0;!feof(data);size++){
-		values = realloc(values,(size+1)*sizeof(double));
-		fscanf(data,"%lf",values+size);
-		total_value += values[size];
+		if(fscanf(data,"%lf",&value) != -1){
+			add_element(values_list,value);
+			total_value += value;
+		}
 	}
 	fclose(data);
-
-	probabilities* array = malloc(sizeof(probabilities));
-	array->length = size-1;
-	array->proba = malloc(array->length*sizeof(double));
-	array->proba_sums = malloc((array->length+1)*sizeof(double));
-
-	array->proba_sums[0] = 0;
-	for(uint32_t i=0;i<array->length;i++){
-		array->proba[i] = values[i] / total_value;
-		array->proba_sums[i+1] = array->proba_sums[i] + array->proba[i];
-	}
-	free(values);
+	array = getlistproba(values_list,total_value);
+	free_list(values_list);
 	return array;
 }
 

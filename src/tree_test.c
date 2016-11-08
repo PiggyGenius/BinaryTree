@@ -1,6 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
-#include "tree.h"
+#include "../inc/tree.h"
 
 int main(void) {
 	Node* root = init(0, 0.3);
