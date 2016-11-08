@@ -15,7 +15,7 @@ PDF=$(LATEXSOURCE:.tex=.pdf)
 
 
 CC=gcc
-CFLAGS=-W -Wall -ansi -pedantic -std=c99
+CFLAGS=-W -Wall -ansi -pedantic -std=c99 -lm
 SRC=datareader.c averagedepth.c averagetest.c
 OBJ=$(SRC:.c=.o)
 

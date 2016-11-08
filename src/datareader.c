@@ -19,14 +19,18 @@ probabilities* getproba(char* filename){
 		fscanf(data,"%lf",values+size);
 		total_value += values[size];
 	}
+	fclose(data);
 
 	probabilities* array = malloc(sizeof(probabilities));
 	array->length = size-1;
 	array->proba = malloc(array->length*sizeof(double));
-	array->proba_sums = calloc(array->length,sizeof(double));
-	for(uint32_t i=0;i<array->length;i++){
+	array->proba_sums = malloc(array->length*sizeof(double));
+
+	array->proba[0] = values[0] / total_value;
+	array->proba_sums[0] = array->proba[0];
+	for(uint32_t i=1;i<array->length;i++){
 		array->proba[i] = values[i] / total_value;
-		array->proba_sums[i] += values[i];
+		array->proba_sums[i] = array->proba_sums[i-1] + array->proba[i];
 	}
 	free(values);
 	return array;
