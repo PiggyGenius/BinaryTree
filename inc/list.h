@@ -14,7 +14,7 @@ typedef struct List {
 } List;
 
 
-List* init(void);
+List* init_list(void);
 
 void add_element(List* l, double value);
 

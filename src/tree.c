@@ -1,6 +1,6 @@
 #include "../inc/tree.h"
 
-Node* init(int value, float proba)
+Node* init_tree(int value, float proba)
 {
 	Node* n = malloc(sizeof(Node));
 	n->value = value;
@@ -21,13 +21,13 @@ void add_son(Node* n, int value, float proba, int side)
 			fprintf(stderr, "Error : this node already has a left son\n");
 			exit(EXIT_FAILURE);
 		}
-		n->left_son = init(value, proba);	
+		n->left_son = init_tree(value, proba);	
 	} else {
 		if (n->right_son != NULL) {
 			fprintf(stderr, "Error : this node already has a right son\n");
 			exit(EXIT_FAILURE);
 		}
-		n->right_son = init(value, proba);
+		n->right_son = init_tree(value, proba);
 	}
 }
 

@@ -19,7 +19,7 @@ probabilities* getproba(char* filename){
 	}
 
 	/* We need to check scanf for a mysterious reason ? */
-	values_list = init();
+	values_list = init_list();
 	for(size=0;!feof(data);size++){
 		if(fscanf(data,"%lf",&value) != -1){
 			add_element(values_list,value);

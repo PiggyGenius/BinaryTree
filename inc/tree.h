@@ -1,6 +1,9 @@
 #ifndef NODE_H
 #define NODE_H
 
+#include<stdlib.h>
+#include<stdio.h>
+
 typedef struct Node {
 	int value;
 	float proba;
@@ -9,7 +12,7 @@ typedef struct Node {
 } Node;
 
 // create a node
-Node* init(int value, float proba);
+Node* init_tree(int value, float proba);
 
 // add a son to the node
 // if side == 0, left_son

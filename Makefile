@@ -15,8 +15,6 @@ PDF=$(LATEXSOURCE:.tex=.pdf)
 
 CC=gcc
 CFLAGS=-W -Wall -ansi -pedantic -std=c99 -lm -g
-SRC=datareader.c averagedepth.c averagetest.c list.c
-OBJ=$(SRC:.c=.o)
 
 all: binary report doc 
 
@@ -36,7 +34,7 @@ report: $(PDF)
 
 doc: $(DOCDIR)/index.html
 
-averagetest: $(OBJ)
+averagetest: datareader.o averagedepth.o averagetest.o list.o tree.o
 	$(CC) -o $(BINDIR)/$@ $(addprefix $(BINDIR)/, $^) && $(BINDIR)/$@ 
 
 tree_test: tree.o tree_test.o

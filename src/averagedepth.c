@@ -18,41 +18,71 @@ double proba_sum(uint32_t low_index,uint32_t high_index){
 	return sum;
 }
 
-double avgdepth(uint32_t low_index, uint32_t high_index)
-{
+
+double avgdepth(uint32_t low_index, uint32_t high_index){
 	total_call_count += 1;
-	if(high_index-low_index <= 1)
-		return high_index-low_index;
-
+	if (low_index == high_index) {
+		return 0;
+	} else if (low_index + 1 == high_index) {
+		depth_array[low_index][high_index-1].avg_depth = 1;
+		depth_array[low_index][high_index-1].root_index = low_index;
 	/* We have to check if value is very close to 0, can't compare floats to 0.0 */
-	if(fabs(depth_array[low_index][high_index-1].avg_depth) > 10e-7)
-		return depth_array[low_index][high_index-1].avg_depth;
+	} else if (fabs(depth_array[low_index][high_index-1].avg_depth) <= 10e-7) {
+		unique_call_count += 1;
+		double lower, higher, total;
+		double min_result, new_result;
+		int min_index;
 
-	unique_call_count += 1;
-	double lower, higher, total;
-	double min_result, new_result;
-	int min_index;
+		total = proba_sum(low_index,high_index);
+		lower = 0.0;
+		higher = avgdepth(low_index+1,high_index) * (proba_sums[high_index]-proba_sums[low_index+1]) / total;
+		min_result = 1 + lower + higher;
+		min_index = 0;
 
-	total = proba_sum(low_index,high_index);
-	lower = 0.0;
-	higher = avgdepth(low_index+1,high_index) * (proba_sums[high_index]-proba_sums[low_index+1]) / total;
-	min_result = 1 + lower + higher;
-	min_index = 0;
+		for(uint32_t i=low_index+1;i<high_index;i++){
+			lower = avgdepth(low_index,i) * (proba_sums[i]-proba_sums[low_index]) / total;
+			higher = avgdepth(i+1,high_index) * (proba_sums[high_index]-proba_sums[i+1]) / total;
+			new_result = 1 + lower + higher;
 
-	for(uint32_t i=low_index+1;i<high_index;i++){
-		lower = avgdepth(low_index,i) * (proba_sums[i]-proba_sums[low_index]) / total;
-		higher = avgdepth(i+1,high_index) * (proba_sums[high_index]-proba_sums[i+1]) / total;
-		new_result = 1 + lower + higher;
-		if (min_result > new_result) {
-			min_result = new_result;
-			min_index = i;
+			if (min_result > new_result) {
+				min_result = new_result;
+				min_index = i;
+			}
 		}
+
+		depth_array[low_index][high_index-1].avg_depth = min_result;
+		depth_array[low_index][high_index-1].root_index = min_index;
+	}
+	return depth_array[low_index][high_index-1].avg_depth;
+}
+
+
+Node* build_tree(int min_index, int max_index)
+{
+	/*  fonction recursive / plan :
+	 *  chercher index i mis en root pour cet arbre dans depth_array 
+	 *  lui mettre en fils gauche : min_index à i
+	 *  lui mettre en fils droit : i+1 à max_index
+	 *  Condition d'arret : si min = max, NULL */
+
+	if (min_index == max_index) {
+		return NULL;
 	}
 
-	depth_array[low_index][high_index-1].avg_depth = min_result;
-	depth_array[low_index][high_index-1].root_index = min_index;
-	return min_result;
+	if (min_index > max_index) {
+		fprintf(stderr, "This should never happen\n");
+		exit(EXIT_FAILURE);
+	}
+
+	int root_index = depth_array[min_index][max_index-1].root_index;
+	Node* n = malloc(sizeof(Node));
+	n->value = root_index;
+	n->proba = proba[root_index];
+	n->left_son = build_tree(min_index, root_index);
+	n->right_son = build_tree(root_index+1, max_index);
+	return n;
 }
+
 
 double getavg(probabilities* array)
 {
@@ -67,6 +97,9 @@ double getavg(probabilities* array)
 		depth_array[i] = calloc(array->length,sizeof(tree_info));
 
 	min_depth = avgdepth(0, array->length);
+	/* Node* tree = build_tree(0, array->length); */
+	/* print_tree(tree); */
+	/* free_tree(tree); */
 
 	for(uint32_t i=1; i < array->length; i++)
 		free(depth_array[i]);
@@ -76,3 +109,4 @@ double getavg(probabilities* array)
 	printf("Unique call count: %u\n",unique_call_count);
 	return min_depth;
 }
+

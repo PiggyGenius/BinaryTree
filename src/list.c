@@ -3,7 +3,7 @@
 #include <stdint.h>
 #include "../inc/list.h"
 
-List* init(void)
+List* init_list(void)
 {
 	List* l = malloc(sizeof(List));	
 	l->size = 0;

@@ -2,6 +2,7 @@
 #define AVERAGEDEPTH_H
 
 #include "datareader.h"
+#include "tree.h"
 
 typedef struct tree_info {
 	int root_index;
