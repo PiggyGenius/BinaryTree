@@ -9,7 +9,7 @@ int main(void){
 	probabilities* array = getproba("benchmarks/benchmark2.in");
 	Tree* t = getavg(array);
 	printf("Average depth: %lf\n", t->avg_depth);
-	/*treetoarray(t,array->length);*/
+	treetoarray(t,array->length);
 	free(array->proba);
 	free(array->proba_sums);
 	free(array);

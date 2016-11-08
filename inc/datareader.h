@@ -14,7 +14,7 @@ void disparray(double* proba,uint32_t length);
 
 void treetoarray(Tree* tree,uint32_t length);
 
-void printtree(uint32_t length);
+void printtree(int32_t length);
 
 void nodetoarray(Node* root);
 
