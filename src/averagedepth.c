@@ -37,7 +37,7 @@ double avgdepth(uint32_t low_index, uint32_t high_index){
 		lower = 0.0;
 		higher = avgdepth(low_index+1,high_index) * (proba_sums[high_index]-proba_sums[low_index+1]) / total;
 		min_result = 1 + lower + higher;
-		min_index = 0;
+		min_index = low_index;
 
 		for(uint32_t i=low_index+1;i<high_index;i++){
 			lower = avgdepth(low_index,i) * (proba_sums[i]-proba_sums[low_index]) / total;
@@ -52,6 +52,7 @@ double avgdepth(uint32_t low_index, uint32_t high_index){
 
 		depth_array[low_index][high_index-1].avg_depth = min_result;
 		depth_array[low_index][high_index-1].root_index = min_index;
+		/* printf("[%d][%d] filled\n", low_index, high_index); */
 	}
 	return depth_array[low_index][high_index-1].avg_depth;
 }
@@ -75,6 +76,7 @@ Node* build_tree(int min_index, int max_index)
 	}
 
 	int root_index = depth_array[min_index][max_index-1].root_index;
+	/* printf("Min = %d, Max = %d, root = %d\n", min_index, max_index, root_index); */
 	Node* n = malloc(sizeof(Node));
 	n->value = root_index;
 	n->proba = proba[root_index];
@@ -97,9 +99,9 @@ double getavg(probabilities* array)
 		depth_array[i] = calloc(array->length,sizeof(tree_info));
 
 	min_depth = avgdepth(0, array->length);
-	/* Node* tree = build_tree(0, array->length); */
-	/* print_tree(tree); */
-	/* free_tree(tree); */
+	Node* tree = build_tree(0, array->length);
+	print_tree(tree);
+	free_tree(tree);
 
 	for(uint32_t i=1; i < array->length; i++)
 		free(depth_array[i]);
