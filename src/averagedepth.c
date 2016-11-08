@@ -53,9 +53,9 @@ double getavg(double* proba_array,double* proba_sum_array,uint32_t length){
 		depth_array[i] = calloc(length,sizeof(double));
 
 	min_depth = avgdepth(0,length);
-	/*for(uint32_t i=1;i<length;i++)*/
-		/*free(depth_array[i]);*/
-	/*free(depth_array);*/
+	for(uint32_t i=1;i<length;i++)
+		free(depth_array[i]);
+	free(depth_array);
 	printf("Unique call count: %u\n",call_count);
 	return min_depth;
 }

@@ -43,6 +43,10 @@ averagetest: $(OBJ)
 tree_test: tree.o tree_test.o
 	$(CC) -o $(BINDIR)/$@ $(addprefix $(BINDIR)/, $^) && $(BINDIR)/$@
 
+test_list: list.o test_list.o
+	$(CC) -o $(BINDIR)/$@ $(addprefix $(BINDIR)/, $^) && $(BINDIR)/$@
+
+
 %.o: $(SRCDIR)/%.c
 	$(CC) -o $(BINDIR)/$@ -c $< $(CFLAGS)
 
@@ -50,4 +54,4 @@ clean:
 	rm -rf $(DOCDIR) $(BINDIR)/* $(REPORTDIR)/*.aux $(REPORTDIR)/*.log  $(REPORTDIR)/rapport.pdf 
 
 
-.PHONY: all doc binary report averagetest
+.PHONY: all doc binary report averagetest tree_test test_list
