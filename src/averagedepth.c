@@ -30,12 +30,12 @@ double avgdepth(uint32_t low_index,uint32_t high_index){
 	double min_result, new_result;
 	total = proba_sum(low_index,high_index);
 	lower = 0.0;
-	higher = avgdepth(low_index+1,high_index) * proba_sum(low_index+1,high_index) / total;
+	higher = avgdepth(low_index+1,high_index) * (proba_sums[high_index]-proba_sums[low_index+1]) / total;
 
 	min_result = 1 + lower + higher;
 	for(uint32_t i=low_index+1;i<high_index;i++){
-		lower = avgdepth(low_index,i) * proba_sum(low_index,i) / total;
-		higher = avgdepth(i+1,high_index) * proba_sum(i+1,high_index) / total;
+		lower = avgdepth(low_index,i) * (proba_sums[i]-proba_sums[low_index]) / total;
+		higher = avgdepth(i+1,high_index) * (proba_sums[high_index]-proba_sums[i+1]) / total;
 		new_result = 1 + lower + higher;
 		if(min_result > new_result)
 			min_result = new_result;
@@ -53,9 +53,9 @@ double getavg(double* proba_array,double* proba_sum_array,uint32_t length){
 		depth_array[i] = calloc(length,sizeof(double));
 
 	min_depth = avgdepth(0,length);
-	/*for(uint32_t i=1;i<length;i++)*/
-		/*free(depth_array[i]);*/
-	/*free(depth_array);*/
+	for(uint32_t i=1;i<length;i++)
+		free(depth_array[i]);
+	free(depth_array);
 	printf("Unique call count: %u\n",call_count);
 	return min_depth;
 }
