@@ -13,7 +13,6 @@ LATEXSOURCE=$(wildcard $(REPORTDIR)/*.tex)
 CSOURCE=$(wildcard $(SRCDIR)/compileBST.c)
 PDF=$(LATEXSOURCE:.tex=.pdf)
 
-
 CC=gcc
 CFLAGS=-W -Wall -ansi -pedantic -std=c99 -lm -g
 SRC=datareader.c averagedepth.c averagetest.c list.c
@@ -38,7 +37,7 @@ report: $(PDF)
 doc: $(DOCDIR)/index.html
 
 averagetest: $(OBJ)
-	$(CC) -o $(BINDIR)/$@ $(addprefix $(BINDIR)/, $^) && $(BINDIR)/$@
+	$(CC) -o $(BINDIR)/$@ $(addprefix $(BINDIR)/, $^) && $(BINDIR)/$@ 
 
 tree_test: tree.o tree_test.o
 	$(CC) -o $(BINDIR)/$@ $(addprefix $(BINDIR)/, $^) && $(BINDIR)/$@

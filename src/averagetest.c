@@ -6,7 +6,7 @@
 
 int main(void){
 	probabilities* array = getproba("data/access_count2.txt");
-	printf("Average depth: %lf.\n",getavg(array->proba,array->proba_sums,array->length));
+	printf("Average depth: %lf\n",getavg(array->proba,array->proba_sums,array->length));
 	free(array->proba);
 	free(array->proba_sums);
 	free(array);

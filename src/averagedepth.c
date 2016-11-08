@@ -8,7 +8,8 @@
 double* proba = NULL;
 double* proba_sums = NULL;
 double** depth_array = NULL;
-uint32_t call_count = 0;
+uint32_t total_call_count;
+uint32_t unique_call_count;
 
 double proba_sum(uint32_t low_index,uint32_t high_index){
 	double sum = 0;
@@ -18,6 +19,7 @@ double proba_sum(uint32_t low_index,uint32_t high_index){
 }
 
 double avgdepth(uint32_t low_index,uint32_t high_index){
+	total_call_count += 1;
 	if(high_index-low_index <= 1)
 		return high_index-low_index;
 
@@ -25,7 +27,7 @@ double avgdepth(uint32_t low_index,uint32_t high_index){
 	if(fabs(depth_array[low_index][high_index-1]) > 10e-7)
 		return depth_array[low_index][high_index-1];
 
-	call_count += 1;
+	unique_call_count += 1;
 	double lower, higher, total;
 	double min_result, new_result;
 	total = proba_sum(low_index,high_index);
@@ -46,16 +48,20 @@ double avgdepth(uint32_t low_index,uint32_t high_index){
 
 double getavg(double* proba_array,double* proba_sum_array,uint32_t length){
 	double min_depth;
+	total_call_count = 0;
+	unique_call_count = 0;
+
 	proba = proba_array;
 	proba_sums = proba_sum_array;
 	depth_array = malloc(length*sizeof(double*));
 	for(uint32_t i=0;i<length;i++)
 		depth_array[i] = calloc(length,sizeof(double));
-
 	min_depth = avgdepth(0,length);
 	for(uint32_t i=1;i<length;i++)
 		free(depth_array[i]);
 	free(depth_array);
-	printf("Unique call count: %u\n",call_count);
+
+	printf("Total call count: %u\n",total_call_count);
+	printf("Unique call count: %u\n",unique_call_count);
 	return min_depth;
 }
