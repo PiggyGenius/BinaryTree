@@ -7,9 +7,11 @@
 int main(void){
 	/* probabilities* array = getproba("data/access_count2.txt"); */
 	probabilities* array = getproba("benchmarks/benchmark2.in");
-	printf("Average depth: %lf\n",getavg(array));
+	Tree* t = getavg(array);
+	printf("Average depth: %lf\n", t->avg_depth);
 	free(array->proba);
 	free(array->proba_sums);
 	free(array);
+	free_tree(t);
 	return EXIT_SUCCESS;
 }

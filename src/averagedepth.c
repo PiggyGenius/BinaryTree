@@ -58,7 +58,7 @@ double avg_comp(uint32_t low_index, uint32_t high_index){
 }
 
 
-Node* build_tree(int min_index, int max_index)
+Node* build_nodes(int min_index, int max_index)
 {
 	/*  fonction recursive / plan :
 	 *  chercher index i mis en root pour cet arbre dans depth_array 
@@ -80,13 +80,22 @@ Node* build_tree(int min_index, int max_index)
 	Node* n = malloc(sizeof(Node));
 	n->value = root_index;
 	n->proba = proba[root_index];
-	n->left_son = build_tree(min_index, root_index);
-	n->right_son = build_tree(root_index+1, max_index);
+	n->left_son = build_nodes(min_index, root_index);
+	n->right_son = build_nodes(root_index+1, max_index);
 	return n;
 }
 
 
-double getavg(probabilities* array)
+Tree* build_tree(int min_index, int max_index, double min_depth)
+{
+	Tree* t = malloc(sizeof(Tree));
+	t->root = build_nodes(min_index, max_index);
+	t->avg_depth = min_depth;
+	return t;
+}
+
+
+Tree* getavg(probabilities* array)
 {
 	double min_depth;
 	total_call_count = 0;
@@ -100,10 +109,9 @@ double getavg(probabilities* array)
 
 	/* avg_comp returns the optimal average number of comparisons
 	 * the average depth is the avg comp minus 1 */
-	min_depth = avg_comp(0, array->length) - 1;
-	Node* tree = build_tree(0, array->length);
+	min_depth = avg_comp(0, array->length) - 1.0;
+	Tree* tree = build_tree(0, array->length, min_depth);
 	print_tree(tree);
-	free_tree(tree);
 
 	for(uint32_t i=1; i < array->length; i++)
 		free(depth_array[i]);
@@ -111,6 +119,6 @@ double getavg(probabilities* array)
 
 	printf("Total call count: %u\n",total_call_count);
 	printf("Unique call count: %u\n",unique_call_count);
-	return min_depth;
+	return tree;
 }
 
