@@ -3,6 +3,7 @@
 
 typedef struct {
 	double* proba;
+	double* proba_sums;
 	uint32_t length;
 } probabilities;
 

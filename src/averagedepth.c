@@ -5,6 +5,7 @@
 
 
 double* proba = NULL;
+double* proba_sums = NULL;
 
 double proba_sum(uint32_t low_index,uint32_t high_index){
 	double sum = 0;
@@ -34,7 +35,8 @@ double avgdepth(uint32_t low_index,uint32_t high_index){
 	return min_result;
 }
 
-double getavg(double* proba_array,uint32_t length){
+double getavg(double* proba_array,double* proba_sum_array,uint32_t length){
 	proba = proba_array;
+	proba_sums = proba_sum_array;
 	return avgdepth(0,length);
 }

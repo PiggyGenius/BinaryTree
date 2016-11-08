@@ -2,10 +2,10 @@
 # -*-coding:Utf-8 -*
 import sys
 sys.path.insert(0,"src/")
-from Node import *
+# from Node import *
 from AverageDepthCalculator import AverageDepthCalculator
 from DataReader import DataReader
-from GraphicalTree import GraphicalTree
+# from GraphicalTree import GraphicalTree
 
 
 # We read the data file and print data as C array

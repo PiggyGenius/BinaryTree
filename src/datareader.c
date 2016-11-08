@@ -23,8 +23,12 @@ probabilities* getproba(char* filename){
 	probabilities* array = malloc(sizeof(probabilities));
 	array->length = size-1;
 	array->proba = malloc(array->length*sizeof(double));
-	for(uint32_t i=0;i<array->length;i++)
+	array->proba_sums = calloc(array->length,sizeof(double));
+	for(uint32_t i=0;i<array->length;i++){
 		array->proba[i] = values[i] / total_value;
+		array->proba_sums[i] += values[i];
+	}
+	free(values);
 	return array;
 }
 
