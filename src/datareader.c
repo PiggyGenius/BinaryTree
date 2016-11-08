@@ -40,6 +40,9 @@ void treetoarray(Tree* tree,uint32_t length){
 	for(uint32_t i=0;i<length;i++)
 		tree_array[i] = malloc(2*sizeof(uint32_t));
 	nodetoarray(tree->root);
+	for(uint32_t i=0;i<length;i++)
+		free(tree_array[i]);
+	free(tree_array);
 	printtree(length);
 }
 
