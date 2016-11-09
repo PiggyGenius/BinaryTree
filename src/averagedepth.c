@@ -7,7 +7,7 @@
 
 double* proba = NULL;
 double* proba_sums = NULL;
-tree_info** depth_array = NULL;
+tree_info** comp_array = NULL;
 uint32_t total_call_count;
 uint32_t unique_call_count;
 
@@ -29,10 +29,10 @@ double avg_comp(uint32_t low_index, uint32_t high_index){
 	if (low_index == high_index) {
 		return 0;
 	} else if (low_index + 1 == high_index) {
-		depth_array[low_index][high_index-1].avg_depth = 1;
-		depth_array[low_index][high_index-1].root_index = low_index;
+		comp_array[low_index][high_index-1].avg_comp = 1;
+		comp_array[low_index][high_index-1].root_index = low_index;
 	/* We have to check if value is very close to 0, can't compare floats to 0.0 */
-	} else if (fabs(depth_array[low_index][high_index-1].avg_depth) <= 10e-7) {
+	} else if (fabs(comp_array[low_index][high_index-1].avg_comp) <= 10e-7) {
 		unique_call_count += 1;
 		double lower, higher, total;
 		double min_result, new_result;
@@ -55,10 +55,10 @@ double avg_comp(uint32_t low_index, uint32_t high_index){
 			}
 		}
 
-		depth_array[low_index][high_index-1].avg_depth = min_result;
-		depth_array[low_index][high_index-1].root_index = min_index;
+		comp_array[low_index][high_index-1].avg_comp = min_result;
+		comp_array[low_index][high_index-1].root_index = min_index;
 	}
-	return depth_array[low_index][high_index-1].avg_depth;
+	return comp_array[low_index][high_index-1].avg_comp;
 }
 
 
@@ -74,7 +74,7 @@ Node* build_nodes(int min_index, int max_index)
 		exit(EXIT_FAILURE);
 	}
 
-	int root_index = depth_array[min_index][max_index-1].root_index;
+	int root_index = comp_array[min_index][max_index-1].root_index;
 	Node* n = malloc(sizeof(Node));
 	n->value = root_index;
 	n->proba = proba[root_index];
@@ -104,9 +104,9 @@ Tree* getavg(probabilities* array)
 
 	proba = array->proba;
 	proba_sums = array->proba_sums;
-	depth_array = malloc(array->length*sizeof(tree_info*));
+	comp_array = malloc(array->length*sizeof(tree_info*));
 	for(uint32_t i=0; i < array->length; i++)
-		depth_array[i] = calloc(array->length,sizeof(tree_info));
+		comp_array[i] = calloc(array->length,sizeof(tree_info));
 
 	/* avg_comp returns the optimal average number of comparisons
 	 * the average depth is the avg_comp minus 1 */
@@ -114,8 +114,8 @@ Tree* getavg(probabilities* array)
 	Tree* tree = build_tree(0, array->length, min_depth);
 
 	for(uint32_t i=0; i < array->length; i++)
-		free(depth_array[i]);
-	free(depth_array);
+		free(comp_array[i]);
+	free(comp_array);
 
 	return tree;
 }
