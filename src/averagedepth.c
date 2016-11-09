@@ -111,14 +111,14 @@ Tree* getavg(probabilities* array)
 	 * the average depth is the avg comp minus 1 */
 	min_depth = avg_comp(0, array->length) - 1.0;
 	Tree* tree = build_tree(0, array->length, min_depth);
-	print_tree(tree);
+	/* print_tree(tree); */
 
 	for(uint32_t i=1; i < array->length; i++)
 		free(depth_array[i]);
 	free(depth_array);
 
-	printf("Total call count: %u\n",total_call_count);
-	printf("Unique call count: %u\n",unique_call_count);
+	/* printf("Total call count: %u\n",total_call_count); */
+	/* printf("Unique call count: %u\n",unique_call_count); */
 	return tree;
 }
 

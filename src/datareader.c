@@ -78,3 +78,10 @@ void disparray(double* proba,uint32_t length){
 	for(uint32_t i=0;i<length;i++)
 		printf("%lf\n",proba[i]);
 }
+
+void free_array(probabilities* array)
+{
+	free(array->proba);
+	free(array->proba_sums);
+	free(array);
+}

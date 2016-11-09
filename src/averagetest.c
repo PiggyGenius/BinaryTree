@@ -10,9 +10,7 @@ int main(void){
 	Tree* t = getavg(array);
 	printf("Average depth: %lf\n", t->avg_depth);
 	treetoarray(t,array->length);
-	free(array->proba);
-	free(array->proba_sums);
-	free(array);
+	free_array(array);
 	free_tree(t);
 	return EXIT_SUCCESS;
 }
