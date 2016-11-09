@@ -15,7 +15,7 @@
 #include <assert.h>
 #include <string.h>
 
-#include "../inc/datareader.h"
+#include "../inc/data_io.h"
 #include "../inc/averagedepth.h"
 #include "../inc/tree.h"
 

@@ -1,7 +1,7 @@
 #ifndef AVERAGEDEPTH_H
 #define AVERAGEDEPTH_H
 
-#include "datareader.h"
+#include "data_io.h"
 #include "tree.h"
 
 typedef struct tree_info {

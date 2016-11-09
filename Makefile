@@ -20,7 +20,7 @@ CFLAGS=-W -Wall -ansi -pedantic -std=c99 -lm -g
 
 all: binary report doc 
 
-$(BINDIR)/computeABROpt: computeABROpt.o averagedepth.o tree.o datareader.o list.o
+$(BINDIR)/computeABROpt: computeABROpt.o averagedepth.o tree.o data_io.o list.o
 	$(CC) $(CFLAGS) $(addprefix $(BINDIR)/, $^) -o $@
 
 %.pdf: $(LATEXSOURCE)
@@ -35,7 +35,7 @@ report: $(PDF)
 
 doc: $(DOCDIR)/index.html
 
-averagetest: datareader.o averagedepth.o averagetest.o list.o tree.o
+averagetest: data_io.o averagedepth.o averagetest.o list.o tree.o
 	$(CC) -o $(BINDIR)/$@ $(addprefix $(BINDIR)/, $^) && $(BINDIR)/$@ 
 
 %.o: $(SRCDIR)/%.c
