@@ -1,22 +1,11 @@
 # BinaryTree
 
-éléments 	E = e0, ..., en-1
-probas 		P = p0, ..., pn-1
+## Generate computeABROpt
+	make binary
 
+## Run a test
+	make run LENGTH=10 FILE_PATH=benchmarks/benchmark2.in
 
-v.1
-	c(E) = min_eidansE{ (c({ej < ei})*somme_ej + c({ek > ei})*somme_ek )/2 + 1 }
-
-v.2
-	P = 1 au début.
-	c(E,P) = min_eidansE{ p_i+(c({e_j < e_i},P+1)*P + c({e_k > e_i},P+1)*P ) }
-	C(e) = p_e
-
-v.3
-	c(E) = min_eidansE{ pi + (c(ej < ei)+1)*somme_pj + (c(ek > ei)+1)*somme_pk }
-		ou
-	c(E) = min_eidansE{ c(ej < ei)*somme_pj + c(ek > ei)*somme_pk + 1 }
-
-		 = 1 si E = {ei}
-		 = 0 si E = vide
-
+## Or manually
+	make binary
+	./bin/computeABROpt 10 benchmarks/benchmark2.in
