@@ -51,7 +51,7 @@ averagetest: datareader.o averagedepth.o averagetest.o list.o tree.o
 # use it with : make run BENCHMARK=6
 # if you want the 6th benchmark
 run: binary
-	./$(BINDIR)/computeABROpt 1 benchmarks/benchmark$(BENCHMARK).in
+	./$(BINDIR)/computeABROpt $(COUNT) $(PATH)
 
 
 clean:

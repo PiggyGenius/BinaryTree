@@ -22,6 +22,4 @@ void print_list(List* l);
 
 void free_list(List *l);
 
-probabilities* getlistproba(List* l,double total_value);
-
 #endif

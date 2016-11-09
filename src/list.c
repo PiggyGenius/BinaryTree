@@ -31,22 +31,6 @@ void add_element(List* l, double value)
 	l->size += 1;
 }
 
-probabilities* getlistproba(List* l,double total_value){
-	Element* elem = l->first;
-	probabilities* array = malloc(sizeof(probabilities));
-	array->length = l->size;
-	array->proba = malloc(array->length*sizeof(double));
-	array->proba_sums = malloc((array->length+1)*sizeof(double));
-
-	array->proba_sums[0] = 0;
-	for(uint32_t i=0;i<array->length;i++){
-		array->proba[i] = elem->value / total_value;
-		array->proba_sums[i+1] = array->proba_sums[i] + array->proba[i];
-		elem = elem->next;
-	}
-	return array;
-}
-
 void print_list(List* l)
 {
 	Element* elt = l->first;

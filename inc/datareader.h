@@ -11,7 +11,9 @@ typedef struct {
 	uint32_t length;
 } probabilities;
 
-probabilities* getproba(char* filename);
+probabilities* getprobaarray(double* value_array,uint32_t length,double total_value);
+
+probabilities* getproba(FILE*,uint32_t length);
 
 void disparray(double* proba,uint32_t length);
 

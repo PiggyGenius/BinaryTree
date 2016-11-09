@@ -113,7 +113,7 @@ Tree* getavg(probabilities* array)
 	Tree* tree = build_tree(0, array->length, min_depth);
 	/* print_tree(tree); */
 
-	for(uint32_t i=1; i < array->length; i++)
+	for(uint32_t i=0; i < array->length; i++)
 		free(depth_array[i]);
 	free(depth_array);
 
