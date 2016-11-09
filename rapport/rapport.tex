@@ -2,9 +2,9 @@
 % Préambule; packages qui peuvent être utiles
    \RequirePackage[T1]{fontenc}        % Ce package pourrit les pdf...
    \RequirePackage{babel,indentfirst}  % Pour les césures correctes,
-                                       % et pour indenter au début de chaque paragraphe
+   % et pour indenter au début de chaque paragraphe
    \RequirePackage[utf8]{inputenc}   % Pour pouvoir utiliser directement les accents
-                                     % et autres caractères français
+   % et autres caractères français
    % \RequirePackage{lmodern,tgpagella} % Police de caractères
    \textwidth 17cm \textheight 25cm \oddsidemargin -0.24cm % Définition taille de la page
    \evensidemargin -1.24cm \topskip 0cm \headheight -1.5cm % Définition des marges
@@ -13,198 +13,203 @@
    % \RequirePackage{tikz}   % Pour faire des schémas
    % \RequirePackage{graphicx} % Pour inclure des images
    % \RequirePackage{listings} % pour mettre des listings
-% Fin Préambule; package qui peuvent être utiles
+   % Fin Préambule; package qui peuvent être utiles
 
 \title{Rapport de TP 4MMAOD : Génération d'ABR optimal}
 \author{
 	Maxime Deloche \\
 	Ludovic Carré \\
-	\textit{Equipe Teide 4}
+	\textit{Equipe Teide 4} \\
+	\textbf{2ème partie du rendu}
 }
 
 \begin{document}
 
 \maketitle
 
-\section{Equation de Bellman}
-
-\subsection{Question 1}
-
-\subsubsection{Montrons que tout sous-arbre d'un ABR optimal est un ABR optimal, par l'absurde.}
-
-Soit A un ABR optimal. On suppose qu'un sous-arbre S de A n'est pas optimal.
-Donc le nombre de comparaisons $x$ pour atteindre un élément $e$ de S n'est pas optimal dans S (notons cet optimal $x_{opt}$).
-Donc le nombre de comparaisons pour atteindre $e$ dans A est $x + 1$. Or, on pourrait atteindre $e$ en $x_{opt} + 1$, donc A n'est pas optimal, ce qui est absurde. \\
-
-Donc tout sous-arbre d'un ABR optimal est un ABR optimal.
-
-
-\subsubsection{Equation de Bellman}
-
-Deux raisonnements différents nous ont conduit à deux équations de Bellman différentes mais équivalentes. Nous les avons implémentées et on obtient des résultats identiques et corrects.\\
-\begin{itemize}
-	\item[$\bullet$] \textbf{Version 1} \\
-		Dans un arbre A de racine $e_i$, on a :
-		\begin{itemize}
-			\item[$\bullet$] une probabilité \verb?proba_que_element_soit_e_i? de faire 1 comparaison (si l'élément cherché est $e_i$).
-			\item[$\bullet$] une probabilité \verb?proba_que_element_soit_dans_le_sous_arbre_gauche? de faire le nombre de comparaisons optimal du sous-arbre gauche, plus 1.
-			\item[$\bullet$] une probabilité \verb?proba_que_element_soit_dans_le_sous_arbre_droit? de faire le nombre de comparaisons optimal du sous-arbre droit, plus 1.
-		\end{itemize}
-
-		Soit $c(E)$ le nombre de comparaisons moyen optimal de l'arbre formé par les éléments de E. L'équation de Bellman est : 
-		\[ C(E) = \min_{e_i \in E} ( \frac{p_i}{\sum\limits_{e_l \in E}{p_l}} + \frac{C(\{e_j < e_i\}) + 1}{\sum\limits_{e_l \in E}{p_l}} \sum_{e_j < e_i}{p_j} + \frac{C(\{e_k > e_i\}) + 1}{\sum\limits_{e_l \in E}{p_l}} \sum_{e_k > e_i}{p_k} ) \]
-		C'est-à-dire : 
-		\[ C(E) = \min_{e_i \in E} ( 1 + \frac{C(\{e_j < e_i\})}{\sum\limits_{e_l \in E}{p_l}} \sum_{e_j < e_i}{p_j} + \frac{C(\{e_k > e_i\})}{\sum\limits_{e_l \in E}{p_l}} \sum_{e_k > e_i}{p_k} ) \]
-		Conditions initiales : 
-		\begin{itemize}
-			\item $C(E) = 1$ si E ne contient qu'un élément (on ne fait alors qu'une comparaison).
-			\item $C(E) = 0$ si E est vide. \\
-		\end{itemize}
-
-	\item[$\bullet$] \textbf{Version 2} \\
-		En transformant la formule donnée de calcul du nombre de comparaison moyen optimal en version récursive : 
-		Soit P la profondeur, initialisée à 1.
-		L'équation de Bellman est : 
-		\[ C(E, P) = \min_{e_i \in E} ( p_i.P + C(\{e_j < e_i\}, P+1) + C(\{e_k > e_i\}, P+1) )\]
-		Conditions initiales : 
-		\begin{itemize}
-			\item $C(E) = p_i.P$ si $E = {e_i}$.
-			\item $C(E) = 0$ si E est vide. \\
-		\end{itemize}
-
-\end{itemize}
-
-
-
-
-\subsection{Question 2}
-
-\begin{itemize}
-	\item[$\bullet$] \textbf{Coût de la version 1}
-		\begin{itemize}
-			\item \textbf{En mémoire} : on stocke dans un tableau de taille $n$ par $n$ le nombre moyen optimal de comparaisons, ainsi que le noeud choisi en racine pour cet arbre. 
-				Par exemple, la position $(i, j)$ de ce tableau contiendra le nombre de comparaisons et la racine de l'abre formé par les éléments $e_i$ à $e_j$ 
-				(en supposant les $e_i$ ordonnés). On a donc un coût en mémoire de $\theta(n^2)$. \\
-			\item \textbf{En temps} : Pour chaque appel, on a de l'ordre de $k^2$ opérations à effectuer, avec $k$ le nombre d'éléments de E.
-				On remarque qu'on a $(n - k)$ appels avec $k$ éléments, donc le coût est $\sum\limits_{k=0}^{n} (n-k)k^2 = \frac{1}{12}n(n+1)(n^2+3n+2)$.
-				On a donc un coût en $\theta(n^4)$. \\
-		\end{itemize}
-	\item[$\bullet$] \textbf{Coût de la version 2}
-		\begin{itemize}
-			\item \textbf{En mémoire} : On a le même coût en mémoire qu'à la version 1 puisque la valeur optimale ne dépend pas de la profondeur. On est donc en $\theta(n^2)$.
-			\item \textbf{En temps} : Pour un seul appel, on a un coût en $\theta(1)$ et puisque l'on a $n^2$ appels, on a un coût total de l'ordre de $\theta(n^2)$.\\
-		\end{itemize}
-\end{itemize}
-\textbf{Conclusion} : On retient donc l'équation de la version 2 puisque elle propose une complexité plus avantageuse.
-
+% \section{Equation de Bellman}
+%
+% \subsection{Question 1}
+%
+% \subsubsection{Montrons que tout sous-arbre d'un ABR optimal est un ABR optimal, par l'absurde.}
+%
+% Soit A un ABR optimal. On suppose qu'un sous-arbre S de A n'est pas optimal.
+% Donc le nombre de comparaisons $x$ pour atteindre un élément $e$ de S n'est pas optimal dans S (notons cet optimal $x_{opt}$).
+% Donc le nombre de comparaisons pour atteindre $e$ dans A est $x + 1$. Or, on pourrait atteindre $e$ en $x_{opt} + 1$, donc A n'est pas optimal, ce qui est absurde. \\
+%
+% Donc tout sous-arbre d'un ABR optimal est un ABR optimal.
+%
+%
+% \subsubsection{Equation de Bellman}
+%
+% Deux raisonnements différents nous ont conduit à deux équations de Bellman différentes mais équivalentes. Nous les avons implémentées et on obtient des résultats identiques et corrects.\\
+% \begin{itemize}
+% 	\item[$\bullet$] \textbf{Version 1} \\
+% 		Dans un arbre A de racine $e_i$, on a :
+% 		\begin{itemize}
+% 			\item[$\bullet$] une probabilité \verb?proba_que_element_soit_e_i? de faire 1 comparaison (si l'élément cherché est $e_i$).
+% 			\item[$\bullet$] une probabilité \verb?proba_que_element_soit_dans_le_sous_arbre_gauche? de faire le nombre de comparaisons optimal du sous-arbre gauche, plus 1.
+% 			\item[$\bullet$] une probabilité \verb?proba_que_element_soit_dans_le_sous_arbre_droit? de faire le nombre de comparaisons optimal du sous-arbre droit, plus 1.
+% 		\end{itemize}
+%
+% 		Soit $c(E)$ le nombre de comparaisons moyen optimal de l'arbre formé par les éléments de E. L'équation de Bellman est : 
+% 		\[ C(E) = \min_{e_i \in E} ( \frac{p_i}{\sum\limits_{e_l \in E}{p_l}} + \frac{C(\{e_j < e_i\}) + 1}{\sum\limits_{e_l \in E}{p_l}} \sum_{e_j < e_i}{p_j} + \frac{C(\{e_k > e_i\}) + 1}{\sum\limits_{e_l \in E}{p_l}} \sum_{e_k > e_i}{p_k} ) \]
+% 		C'est-à-dire : 
+% 		\[ C(E) = \min_{e_i \in E} ( 1 + \frac{C(\{e_j < e_i\})}{\sum\limits_{e_l \in E}{p_l}} \sum_{e_j < e_i}{p_j} + \frac{C(\{e_k > e_i\})}{\sum\limits_{e_l \in E}{p_l}} \sum_{e_k > e_i}{p_k} ) \]
+% 		Conditions initiales : 
+% 		\begin{itemize}
+% 			\item $C(E) = 1$ si E ne contient qu'un élément (on ne fait alors qu'une comparaison).
+% 			\item $C(E) = 0$ si E est vide. \\
+% 		\end{itemize}
+%
+% 	\item[$\bullet$] \textbf{Version 2} \\
+% 		En transformant la formule donnée de calcul du nombre de comparaison moyen optimal en version récursive : 
+% 		Soit P la profondeur, initialisée à 1.
+% 		L'équation de Bellman est : 
+% 		\[ C(E, P) = \min_{e_i \in E} ( p_i.P + C(\{e_j < e_i\}, P+1) + C(\{e_k > e_i\}, P+1) )\]
+% 		Conditions initiales : 
+% 		\begin{itemize}
+% 			\item $C(E) = p_i.P$ si $E = {e_i}$.
+% 			\item $C(E) = 0$ si E est vide. \\
+% 		\end{itemize}
+%
+% \end{itemize}
+%
+%
+%
+%
+% \subsection{Question 2}
+%
+% \begin{itemize}
+% 	\item[$\bullet$] \textbf{Coût de la version 1}
+% 		\begin{itemize}
+% 			\item \textbf{En mémoire} : on stocke dans un tableau de taille $n$ par $n$ le nombre moyen optimal de comparaisons, ainsi que le noeud choisi en racine pour cet arbre. 
+% 				Par exemple, la position $(i, j)$ de ce tableau contiendra le nombre de comparaisons et la racine de l'abre formé par les éléments $e_i$ à $e_j$ 
+% 				(en supposant les $e_i$ ordonnés). On a donc un coût en mémoire de $\theta(n^2)$. \\
+% 			\item \textbf{En temps} : Pour chaque appel, on a de l'ordre de $k^2$ opérations à effectuer, avec $k$ le nombre d'éléments de E.
+% 				On remarque qu'on a $(n - k)$ appels avec $k$ éléments, donc le coût est $\sum\limits_{k=0}^{n} (n-k)k^2 = \frac{1}{12}n(n+1)(n^2+3n+2)$.
+% 				On a donc un coût en $\theta(n^4)$. \\
+% 		\end{itemize}
+% 	\item[$\bullet$] \textbf{Coût de la version 2}
+% 		\begin{itemize}
+% 			\item \textbf{En mémoire} : On a le même coût en mémoire qu'à la version 1 puisque la valeur optimale ne dépend pas de la profondeur. On est donc en $\theta(n^2)$.
+% 			\item \textbf{En temps} : Pour un seul appel, on a un coût en $\theta(1)$ et puisque l'on a $n^2$ appels, on a un coût total de l'ordre de $\theta(n^2)$.\\
+% 		\end{itemize}
+% \end{itemize}
+% \textbf{Conclusion} : On retient donc l'équation de la version 2 puisque elle propose une complexité plus avantageuse.
+%
 % \newpage
 %
-% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% \paragraph{\em Préambule}
-% {\em \begin{itemize} 
-%    \item Compléter ce patron de rapport en supprimant toutes les phrases en italique\,: elles ne doivent pas apparaître dans le rapport pdf.
-%    \item Il sera attribué {\bf 1 point} pour la qualité globale du rapport\,: présentation, concision et clarté de l'argumentation.
-% \end{itemize}
-% }
-%
-% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% \section{Principe de notre  programme (1 point)}
-% {\em Mettre ici une explication brève du principe de votre programme en  précisant la méthode implantée (récursive, itérative) et les
-% choix effectués (notamment pour l'ordonnancement des instructions).
-% } 
-%
-% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% \section{Analyse du coût théorique (2 points)}
-% {\em Donner ici l'analyse du coût théorique de votre programme en fonction du nombre $n$ d'éléments dans le dictionnaire.
-%  Pour chaque coût, donner la formule qui le caractérise (en justifiant brièvement pourquoi cette formule correspond à votre programme), 
-%  puis l'ordre du coût en fonction de $n$ en notation $\Theta$ de préférence, sinon $O$.}
-%
-%   \subsection{Nombre  d'opérations en pire cas\,: }
-%     \paragraph{Justification\,: }
-%     {\em La justification peut être par exemple de la forme: \\ 
-%        "Le programme itératif contient les boucles $k_1=...$, $k_2= ...$ etc correspondant à la somme 
-%       $$T(n_1, n_2, c_1, c_2) = \sum_{k_1=...}^{...} ... \sum ... + \sum_{i=...}^{...} ...$$ 
-%       somme que nous avons calculée (ou majorée) par la technique de  ... " \\
-%       ou  encore\,:  \\
-%       "les appels récursifs du programme permettent de modéliser son coût par le système d'équations aux récurrences 
-%       $$T(k_1, k_2) = ...  \mbox{~avec~les~conditions~initiales~....~} $$
-%       Le coût indiqué est obtenu en résolvant ce système par la méthode de  .... "
-%     } 
-%   \subsection{Place mémoire requise\,: }
-%     \paragraph{Justification\,: }
-%
-%   \subsection{Nombre de défauts de cache sur le modèle CO\,: }
-%     \paragraph{Justification\,: }
-%
-%
-% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% \section{Compte rendu d'expérimentation (2 points)}
-%   \subsection{Conditions expérimentaless}
-%      {\em Décrire les conditions permettant la reproductibilité des mesures: on demande la description
-%       de la machine et la méthode utilisée pour mesurer le temps.
-%      }
-%
-%     \subsubsection{Description synthétique de la machine\,:} 
-%       {\em indiquer ici le  processeur et sa fréquence, la mémoire, le système d'exploitation. 
-%        Préciser aussi si la machine était monopolisée pour un test, ou notamment si 
-%        d'autres processus ou utilisateurs étaient en cours d'exécution. 
-%       } 
-%
-%     \subsubsection{Méthode utilisée pour les mesures de temps\,: } 
-%       {\em préciser ici  comment les mesures de temps ont été effectuées (fonction appelée) et l'unité de temps; en particulier, 
-%        préciser comment les 5 exécutions pour chaque test ont été faites (par exemple si le même test est fait 5 fois de suite, ou si les tests sont alternés entre
-%        les mesures, ou exécutés en concurrence etc). 
-%       }
-%
-%   \subsection{Mesures expérimentales}
-%     {\em Compléter le tableau suivant par les temps d'exécution mesurés pour chacun des 6 benchmarks imposés
-%               (temps minimum, maximum et moyen sur 5 exécutions)
-%     }
-%
-%     \begin{figure}[h]
-%       \begin{center}
-%         \begin{tabular}{|l||r||r|r|r||}
-%           \hline
-%           \hline
-%             & coût         & temps     & temps   & temps \\
-%             & du patch     & min       & max     & moyen \\
-%           \hline
-%           \hline
-%             benchmark1 &      &     &     &     \\
-%           \hline
-%             benchmark2 &      &     &     &     \\
-%           \hline
-%             benchmark3 &      &     &     &     \\
-%           \hline
-%             benchmark4 &      &     &     &     \\
-%           \hline
-%             benchmark5 &      &     &     &     \\
-%           \hline
-%             benchmark6 &      &     &     &     \\
-%           \hline
-%           \hline
-%         \end{tabular}
-%         \caption{Mesures des temps minimum, maximum et moyen de 5 exécutions pour les 6 benchmarks.}
-%         \label{table-temps}
-%       \end{center}
-%     \end{figure}
-%
-% \subsection{Analyse des résultats expérimentaux}
-% {\em Donner  une réponse justifiée  à la question\,: 
-%               les  temps mesurés correspondent ils  à votre analyse théorique (nombre d’opérations et défauts de cache) ?
-% }
-%
-% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% \section{Question bonus\,: programme {\tt mystere.c}(2 points)}
-% \subsection{Que fait le programme mystère et dans quel but? (1.5 point)}
-% {\em Dire brièvement ce que fait le programme mystere et quel est l'impact lors de l'exécution 
-% (i.e. lors de recherches avec le dictionnaire) de ce post-traitement.}
-%
-% \subsection{Qu'en pensez-vous? (0.5 point) } 
-% {\em Répondre à l'argumentation en justifiant : soit que le programme mystere est (presque) optimal (justifier les hypothèses) ; soit qu'il n'est pas optimal en 
-% justifiant comment faire encore mieux.
-% }
-%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Principe de notre  programme (1 point)}
+{Nous avons utilisé une méthode récursive pour le calcul du nombre moyen optimal de comparaisons (fonction \verb?avg_comp? de \verb?averagedepth.c?, appelée par \verb?get_avg?).
+
+C'est l'implémentation directe de notre première version de la formule de Bellman, à laquelle nous avons ajouté des optimisations détaillées dans la partie suivante.
+
+Une fois cette fonction appelée, la fonction \verb?build_tree? construit, à partir du tableau de mémoïsation, l'arbre optimal, et le retourne.
+
+Enfin, la fonction \verb?treetoarray? écrit, à partir de cet arbre, le code C attendu sur la sortie standard (et peut au passage afficher la profondeur moyenne de cet arbre optimal, stockée dans l'objet \verb?Tree?).
+
+Nous avons manqué de temps pour pousser l'implémentation : en effet, nous avions commencé par une implémentation en Python. Nous nous sommes cependant vite rendus compte de la difficulté à effectuer le moindre calcul d'optimisation et à la lenteur du langage, et avons donc décidé de passer à du C.
+} 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Analyse du coût théorique (2 points)}
+{\em Donner ici l'analyse du coût théorique de votre programme en fonction du nombre $n$ d'éléments dans le dictionnaire.
+ Pour chaque coût, donner la formule qui le caractérise (en justifiant brièvement pourquoi cette formule correspond à votre programme), 
+ puis l'ordre du coût en fonction de $n$ en notation $\Theta$ de préférence, sinon $O$.}
+
+ \subsection{Choix d'implémentations}
+ \begin{itemize}
+	 \item Le tableau \verb?comp_array? est un tableau de mémoïsation : à la position \verb?(i, j)?, il stocke l'indice de la racine choisie pour le sous-arbre formé des noeuds d'indices \verb?i? (inclus) à \verb?j? (exclus), et le nombre de comparaisons moyen de cet arbre optimal.
+
+		 Nous n'avions pas besoin de stocker l'arbre en entier, seulement la racine : en effet, si on sait que la racine est d'indice \verb?k?, on trouve son fils gauche (resp. droit) dans la case \verb?(i, k)? (resp. \verb?(k+1, j)?).
+
+		 C'est ce tableau qui est parcouru par la fonction \verb?build_tree? pour reconstituer l'arbre optimal.
+
+	 \item Nous avons à chaque appel récursif besoin de sommer les probabilités de \verb?i? à \verb?j? par exemple. A la lecture du fichier de données, nous remplissons un tableau \verb?proba_sums? stockant les sommes des probas des indices 0 à \verb?i?.
+		 Nous accédons donc ensuite à la somme de probabilités de \verb?i? à \verb?j? en calculant \verb?proba_sums[j] - proba_sums[i]?, donc en coût constant.
+ \end{itemize}
+
+  \subsection{Nombre  d'opérations en pire cas \em TODO}
+	\paragraph{Justification\,: }
+	{\em La justification peut être par exemple de la forme: \\ 
+	   "Le programme itératif contient les boucles $k_1=...$, $k_2= ...$ etc correspondant à la somme 
+	  $$T(n_1, n_2, c_1, c_2) = \sum_{k_1=...}^{...} ... \sum ... + \sum_{i=...}^{...} ...$$ 
+	  somme que nous avons calculée (ou majorée) par la technique de  ... " \\
+	  ou  encore\,:  \\
+	  "les appels récursifs du programme permettent de modéliser son coût par le système d'équations aux récurrences 
+	  $$T(k_1, k_2) = ...  \mbox{~avec~les~conditions~initiales~....~} $$
+	  Le coût indiqué est obtenu en résolvant ce système par la méthode de  .... "
+	} 
+  \subsection{Place mémoire requise}
+  La place mémoire requise est en $O(n^2)$, avec $n$ le nombre d'éléments de l'arbre.
+	\paragraph{Justification}
+	La plus grande place mémoire nécessaire vient du tableau de mémoïsation, qui stocke deux valeurs pour chaque couple d'indices, et a donc un coût de l'ordre de $n^2$ (en pratique 2 fois moins, puisque l'on ne stocke quelque chose que lorsque $low\_index < high\_index$).
+	Les tableaux de probabilités coûtent une taille $n$ en mémoire, de même que l'arbre, ce qui est donc négligeable devant $n^2$.
+
+  \subsection{Nombre de défauts de cache sur le modèle CO \em TODO}
+	\paragraph{Justification}
+	Bof
+
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Compte rendu d'expérimentation (2 points)}
+  \subsection{Conditions expérimentaless}
+	 {\em Décrire les conditions permettant la reproductibilité des mesures: on demande la description
+	  de la machine et la méthode utilisée pour mesurer le temps.
+	 }
+
+	\subsubsection{Description synthétique de la machine\,:} 
+	  {\em indiquer ici le  processeur et sa fréquence, la mémoire, le système d'exploitation. 
+	   Préciser aussi si la machine était monopolisée pour un test, ou notamment si 
+	   d'autres processus ou utilisateurs étaient en cours d'exécution. 
+	  } 
+
+	\subsubsection{Méthode utilisée pour les mesures de temps\,: } 
+	  {\em préciser ici  comment les mesures de temps ont été effectuées (fonction appelée) et l'unité de temps; en particulier, 
+	   préciser comment les 5 exécutions pour chaque test ont été faites (par exemple si le même test est fait 5 fois de suite, ou si les tests sont alternés entre
+	   les mesures, ou exécutés en concurrence etc). 
+	  }
+
+  \subsection{Mesures expérimentales}
+	{\em Compléter le tableau suivant par les temps d'exécution mesurés pour chacun des 6 benchmarks imposés
+			  (temps minimum, maximum et moyen sur 5 exécutions)
+	}
+
+	\begin{figure}[h]
+		\begin{center}
+			\begin{tabular}{|l||r||r|r|r||}
+				\hline
+				\hline
+				& coût         & temps     & temps   & temps \\
+				& du patch     & min       & max     & moyen \\
+				\hline
+				\hline
+				benchmark1 &      &     &     &     \\
+				\hline
+				benchmark2 &      &     &     &     \\
+				\hline
+				benchmark3 &      &     &     &     \\
+				\hline
+				benchmark4 &      &     &     &     \\
+				\hline
+				benchmark5 &      &     &     &     \\
+				\hline
+				benchmark6 &      &     &     &     \\
+				\hline
+				\hline
+			\end{tabular}
+			\caption{Mesures des temps minimum, maximum et moyen de 5 exécutions pour les 6 benchmarks.}
+			\label{table-temps}
+		\end{center}
+	\end{figure}
+
+\subsection{Analyse des résultats expérimentaux}
+{\em Donner  une réponse justifiée  à la question\,: 
+			  les  temps mesurés correspondent ils  à votre analyse théorique (nombre d’opérations et défauts de cache) ?
+}
+
 \end{document}
 %% Fin mise au format
 

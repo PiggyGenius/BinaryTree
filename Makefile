@@ -10,7 +10,6 @@ DOCDIR=$(REFDIR)/doc
 REPORTDIR=$(REFDIR)/rapport
 
 LATEXSOURCE=$(wildcard $(REPORTDIR)/*.tex)
-# CSOURCE=$(wildcard $(SRCDIR)/compileBST.c)
 PDF=$(LATEXSOURCE:.tex=.pdf)
 
 CC=gcc
@@ -34,9 +33,6 @@ binary: $(BINDIR)/computeABROpt
 report: $(PDF) 
 
 doc: $(DOCDIR)/index.html
-
-averagetest: data_io.o averagedepth.o averagetest.o list.o tree.o
-	$(CC) -o $(BINDIR)/$@ $(addprefix $(BINDIR)/, $^) && $(BINDIR)/$@ 
 
 %.o: $(SRCDIR)/%.c
 	$(CC) -o $(BINDIR)/$@ -c $< $(CFLAGS)
