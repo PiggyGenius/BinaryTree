@@ -35,12 +35,17 @@ probabilities* getproba(char* filename){
 	return array;
 }
 
-void treetoarray(Tree* tree,uint32_t length){
+void treetoarray(Tree* tree, uint32_t length)
+{
 	tree_array = malloc(length*sizeof(int32_t*));
 	for(uint32_t i=0;i<length;i++)
 		tree_array[i] = malloc(2*sizeof(int32_t));
+
+	printf("static int BSTroot = %d;\n", tree->root->value);
+	printf("static int BSTtree[%d][2] = {\n", length);
 	nodetoarray(tree->root);
 	printtree(length);
+	printf("};\n");
 	for(uint32_t i=0;i<length;i++)
 		free(tree_array[i]);
 	free(tree_array);
@@ -48,11 +53,10 @@ void treetoarray(Tree* tree,uint32_t length){
 
 void printtree(int32_t length){
 	if(length == 0)
-		printf("{ {} };");
-	printf("{\n");
+		printf("{}");
 	for(int32_t i=0;i<length-1;i++)
 		printf("{%d, %d},\n",tree_array[i][0],tree_array[i][1]);
-	printf("{%d, %d} };\n",tree_array[length-1][0],tree_array[length-1][1]);
+	printf("{%d, %d}\n",tree_array[length-1][0],tree_array[length-1][1]);
 }
 
 void nodetoarray(Node* root){
