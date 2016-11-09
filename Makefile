@@ -38,21 +38,12 @@ doc: $(DOCDIR)/index.html
 averagetest: datareader.o averagedepth.o averagetest.o list.o tree.o
 	$(CC) -o $(BINDIR)/$@ $(addprefix $(BINDIR)/, $^) && $(BINDIR)/$@ 
 
-# tree_test: tree.o tree_test.o
-# 	$(CC) -o $(BINDIR)/$@ $(addprefix $(BINDIR)/, $^) && $(BINDIR)/$@
-#
-# test_list: list.o test_list.o
-# 	$(CC) -o $(BINDIR)/$@ $(addprefix $(BINDIR)/, $^) && $(BINDIR)/$@
-#
-
 %.o: $(SRCDIR)/%.c
 	$(CC) -o $(BINDIR)/$@ -c $< $(CFLAGS)
 
-# use it with : make run BENCHMARK=6
-# if you want the 6th benchmark
+# use it with : make run LENGTH=10 FILE_PATH=benchmarks/benchmark2.in
 run: binary
-	./$(BINDIR)/computeABROpt $(COUNT) $(PATH)
-
+	./$(BINDIR)/computeABROpt $(LENGTH) $(FILE_PATH)
 
 clean:
 	rm -rf $(DOCDIR) $(BINDIR)/* $(REPORTDIR)/*.aux $(REPORTDIR)/*.log  $(REPORTDIR)/rapport.pdf 
