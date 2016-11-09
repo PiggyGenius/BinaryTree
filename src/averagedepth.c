@@ -14,10 +14,6 @@ uint32_t unique_call_count;
 /* returns the sum of the probabilities between
  * low_index (included) and high_index (excluded) */
 double proba_sum(uint32_t low_index,uint32_t high_index){
-	/* double sum = 0; */
-	/* for(uint32_t i=low_index;i<high_index;i++) */
-	/* 	sum += proba[i]; */
-	/* return sum; */
 	return proba_sums[high_index] - proba_sums[low_index];
 }
 
