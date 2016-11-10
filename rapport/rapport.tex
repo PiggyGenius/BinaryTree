@@ -11,7 +11,7 @@
    % \RequirePackage{latexsym}                  % Symboles
    % \RequirePackage{amsmath}                   % Symboles mathématiques
    % \RequirePackage{tikz}   % Pour faire des schémas
-   % \RequirePackage{graphicx} % Pour inclure des images
+   \RequirePackage{graphicx} % Pour inclure des images
    % \RequirePackage{listings} % pour mettre des listings
    % Fin Préambule; package qui peuvent être utiles
 
@@ -161,28 +161,26 @@ Nous avons tout d'abord fait la version récursive, qui était elle aussi très 
 
 	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Compte rendu d'expérimentation (2 points)}
-  \subsection{Conditions expérimentaless}
-	 {\em Décrire les conditions permettant la reproductibilité des mesures: on demande la description
-	  de la machine et la méthode utilisée pour mesurer le temps.
-	 }
+  \subsection{Conditions expérimentales}
+	\subsubsection{Description synthétique de la machine} 
+		Les tests ont été effectués sur une machine du 3e étage (bâtiment E) : 
+	  \begin{itemize}
+		  \item \textbf{Processeur} : Intel(R) Core(TM) i5-6500 CPU @ 3.20GHz
+		  \item \textbf{RAM} : 32 GB
+		  \item \textbf{Système d'exploitation} : CentOS Linux release 7.2.1511
+		  \item Machine monopolisée pour le test
+	  \end{itemize}
 
-	\subsubsection{Description synthétique de la machine\,:} 
-	  {\em indiquer ici le  processeur et sa fréquence, la mémoire, le système d'exploitation. 
-	   Préciser aussi si la machine était monopolisée pour un test, ou notamment si 
-	   d'autres processus ou utilisateurs étaient en cours d'exécution. 
-	  } 
-
-	\subsubsection{Méthode utilisée pour les mesures de temps\,: } 
-	  {\em préciser ici  comment les mesures de temps ont été effectuées (fonction appelée) et l'unité de temps; en particulier, 
-	   préciser comment les 5 exécutions pour chaque test ont été faites (par exemple si le même test est fait 5 fois de suite, ou si les tests sont alternés entre
-	   les mesures, ou exécutés en concurrence etc). 
-	  }
+	\subsubsection{Méthode utilisée pour les mesures de temps} 
+	  Les mesures de temps peuvent être effectuées en lançant le script \verb?time_test.sh?, qui affiche le résultat des appels à \verb?time? sur la sortie standard.
+	  Ce script exécute pour chaque benchmark le même test 5 fois de suite.
+	  Nous avons ensuite entré ces valeurs dans un tableur et tracé le graphe ci-dessous.
 
   \subsection{Mesures expérimentales}
 	{\em Compléter le tableau suivant par les temps d'exécution mesurés pour chacun des 6 benchmarks imposés
 			  (temps minimum, maximum et moyen sur 5 exécutions)
 	}\\
-	{Les mesures ont été effectuées sur la fonction itérative \verb?avg_comp_iter? avant l'optimisation des défauts de cache.}
+	{Les mesures ont été effectuées sur la fonction itérative \verb?avg_comp_iter?.}
 
 	\begin{figure}[h]
 		\begin{center}
@@ -210,6 +208,10 @@ Nous avons tout d'abord fait la version récursive, qui était elle aussi très 
 			\caption{Mesures des temps minimum, maximum et moyen de 5 exécutions pour les 6 benchmarks.}
 			\label{table-temps}
 		\end{center}
+	\end{figure}
+
+	\begin{figure}[h]
+		\includegraphics[scale=0.6]{avg_comp_iter_graph.png}
 	\end{figure}
 
 \subsection{Analyse des résultats expérimentaux}
