@@ -19,7 +19,7 @@ CFLAGS=-W -Wall -ansi -pedantic -std=c99 -lm -g
 
 all: binary report doc 
 
-$(BINDIR)/computeABROpt: computeABROpt.o averagedepth.o tree.o data_io.o list.o
+$(BINDIR)/computeABROpt: computeABROpt.o averagedepth.o tree.o data_io.o
 	$(CC) $(CFLAGS) $(addprefix $(BINDIR)/, $^) -o $@
 
 %.pdf: $(LATEXSOURCE)

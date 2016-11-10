@@ -3,7 +3,7 @@
 #include <stdint.h>
 #include "../inc/data_io.h"
 #include "../inc/tree.h"
-#include "../inc/list.h"
+/* #include "../inc/list.h" */
 
 int32_t** tree_array;
 

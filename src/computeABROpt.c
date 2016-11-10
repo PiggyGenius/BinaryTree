@@ -31,7 +31,7 @@
  */
 int main (int argc, char *argv[]) {
 	long n = 0 ; // Number of elements in the dictionary
-	 FILE *freqFile = NULL ; // File that contains n positive integers defining the relative frequence of dictinary elements  
+	FILE *freqFile = NULL ; // File that contains n positive integers defining the relative frequence of dictinary elements  
 
 	if(argc != 3){
 		fprintf(stderr, "!!!!! Usage: ./compileBST n  originalFile !!!!!\n");
@@ -87,11 +87,12 @@ int main (int argc, char *argv[]) {
 		exit(0);
 	}
 
-	 freqFile = fopen(argv[2] , "r" ); 
-	 if (freqFile==NULL) {
-		 fprintf (stderr, "!!!!! Error opening originalFile !!!!!\n"); 
-		 exit(EXIT_FAILURE);
-	 } 
+	freqFile = fopen(argv[2] , "r" ); 
+	if (freqFile==NULL) {
+		fprintf (stderr, "!!!!! Error opening originalFile !!!!!\n"); 
+		exit(EXIT_FAILURE);
+	} 
+
 	probabilities* array = getproba(freqFile,n);
 	fclose(freqFile); 
 

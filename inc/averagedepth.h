@@ -9,9 +9,6 @@ typedef struct tree_info {
 	double avg_comp;
 } tree_info;
 
-double proba_sum(uint32_t low_index,uint32_t high_index);
-
-double avg_comp(uint32_t low_index,uint32_t high_index);
 
 Tree* getavg(probabilities* array);
 
