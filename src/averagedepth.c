@@ -143,7 +143,7 @@ Tree* getavg(probabilities* array)
 	/* avg_comp returns the optimal average number of comparisons
 	 * the average depth is the avg_comp minus 1 */
 	min_depth = avg_comp_iter(array->length) - 1;
-	printf("%lf\n",min_depth);
+	/* printf("%lf\n",min_depth); */
 	Tree* tree = build_tree(0, array->length, min_depth);
 
 	for(uint32_t i=0; i < array->length; i++)

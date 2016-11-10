@@ -52,12 +52,7 @@ int main (int argc, char *argv[]) {
 		{
 			case EXIT_SUCCESS :
 				// Conversion du long en int
-				if (resuLong > 0)
-				{
-					n = (long)resuLong;
-					fprintf(stderr, "Number of elements in the dictionary: %ld\n", n);         
-				}
-				else
+				if (resuLong <= 0)
 				{
 					(void)fprintf(stderr, "%s cannot be converted into a positive integer matching the number of elements in the dicionary.\n", argv[1]) ; 
 					codeRetour = EXIT_FAILURE;

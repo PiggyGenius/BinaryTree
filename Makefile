@@ -20,13 +20,13 @@ CFLAGS=-W -Wall -ansi -pedantic -std=c99 -lm -g
 all: binary report doc 
 
 $(BINDIR)/computeABROpt: computeABROpt.o averagedepth.o tree.o data_io.o
-	$(CC) $(CFLAGS) $(addprefix $(BINDIR)/, $^) -o $@
+	@$(CC) $(CFLAGS) $(addprefix $(BINDIR)/, $^) -o $@
 
 %.pdf: $(LATEXSOURCE)
-	$(LATEXC) -output-directory $(REPORTDIR) $^ 
+	@$(LATEXC) -output-directory $(REPORTDIR) $^ 
 
 $(DOCDIR)/index.html: $(SRCDIR)/Doxyfile $(CSOURCE) 
-	$(DOCC) $(SRCDIR)/Doxyfile
+	@$(DOCC) $(SRCDIR)/Doxyfile
 
 binary: $(BINDIR)/computeABROpt
 
@@ -35,7 +35,7 @@ report: $(PDF)
 doc: $(DOCDIR)/index.html
 
 %.o: $(SRCDIR)/%.c
-	$(CC) -o $(BINDIR)/$@ -c $< $(CFLAGS)
+	@$(CC) -o $(BINDIR)/$@ -c $< $(CFLAGS)
 
 # use it with : make run LENGTH=10 FILE_PATH=benchmarks/benchmark2.in
 run: binary
