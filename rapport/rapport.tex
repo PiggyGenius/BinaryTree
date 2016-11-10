@@ -136,7 +136,7 @@ Nous avons tout d'abord fait la version récursive, qui était elle aussi très 
 	 \item Nous avons ensuite réduit le nombre de racines à tester en utilisant l'"optimisation de Knuth" (nous avons trouvé cette information sur la page Wikipedia des Binary Search Trees).
  \end{itemize}
 
-  \subsection{Nombre  d'opérations en pire cas \em TODO}
+  \subsection{Nombre  d'opérations en pire cas}
 	\paragraph{Justification\,: }
 	{ On a les couts suivants pour les différentes boucles de notre fonction:}\\
 	\begin{itemize}
@@ -238,6 +238,9 @@ Nous avons tout d'abord fait la version récursive, qui était elle aussi très 
 \subsection{Analyse des résultats expérimentaux}
 {\em Donner  une réponse justifiée  à la question\,: 
 			  les  temps mesurés correspondent ils  à votre analyse théorique (nombre d’opérations et défauts de cache) ?
+}\\\\
+{ On obtient des résultats cohérents avec notre analyse théorique lors des test expérimentaux.\\
+  Malgré notre implémentation peux optimal en terme d'utilisation du cache, le pourcentage de cache miss est assez faible.
 }
 
 \end{document}
