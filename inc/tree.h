@@ -20,11 +20,6 @@ typedef struct Tree {
 // create a node
 Tree* init_tree(void);
 
-// add a son to the node
-// if side == 0, left_son
-// else, right son
-// void add_son(Node* n, int value, float proba, int side);
-
 // free the tree
 void free_tree(Tree *t);
 

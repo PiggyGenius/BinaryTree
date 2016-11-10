@@ -8,28 +8,9 @@ Tree* init_tree(void)
 	return t;
 }
 
-/* void add_son(Node* n, int value, float proba, int side) */
-/* { */
-/* 	if (n == NULL) { */
-/* 		fprintf(stderr, "Error : null pointer\n"); */
-/* 		exit(EXIT_FAILURE); */
-/* 	} */
-/* 	if (side == 0) { */
-/* 		if (n->left_son != NULL) { */
-/* 			fprintf(stderr, "Error : this node already has a left son\n"); */
-/* 			exit(EXIT_FAILURE); */
-/* 		} */
-/* 		n->left_son = init_tree(value, proba);	 */
-/* 	} else { */
-/* 		if (n->right_son != NULL) { */
-/* 			fprintf(stderr, "Error : this node already has a right son\n"); */
-/* 			exit(EXIT_FAILURE); */
-/* 		} */
-/* 		n->right_son = init_tree(value, proba); */
-/* 	} */
-/* } */
 
-void free_nodes(Node* n) {
+void free_nodes(Node* n)
+{
 	if (n == NULL) {
 		fprintf(stderr, "Error : null pointer\n");
 		exit(EXIT_FAILURE);
@@ -43,12 +24,16 @@ void free_nodes(Node* n) {
 	free(n);
 }
 
-void free_tree(Tree *t) {
+
+void free_tree(Tree *t)
+{
 	free_nodes(t->root);
 	free(t);
 }
 
-void print_nodes_rec(Node* n, int tabs) {
+
+void print_nodes_rec(Node* n, int tabs)
+{
 	if (n == NULL) {
 		return;
 	}
@@ -60,7 +45,9 @@ void print_nodes_rec(Node* n, int tabs) {
 	print_nodes_rec(n->right_son, tabs+1);
 }
 
-void print_tree(Tree* t) {
+
+void print_tree(Tree* t)
+{
 	if (t == NULL) {
 		fprintf(stderr, "Error : null pointer\n");
 		exit(EXIT_FAILURE);
