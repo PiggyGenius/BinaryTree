@@ -177,7 +177,7 @@ Nous avons tout d'abord fait la version récursive, qui était elle aussi très 
 	Mesure des défauts de cache sur le benchmark 6 : 3.2\% sur le cache D1 (le plus petit). \\
 
 	Nous avons manqué de temps pour effectuer une optimisation des défauts de cache, mais on pourrait optimiser le tableau de mémoïsation. 
-	En effet, il est parcouru en diagonale : en utilisant des indices différents, on peut sûrement effectuer des parcours en ligne et diminuer ainsi les cache miss.
+	En effet, il est parcouru en diagonale : en utilisant des indices différents, on peut effectuer des parcours en ligne et ainsi diminuer le pourcentage de cache miss.
 
 	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Compte rendu d'expérimentation (2 points)}
@@ -233,11 +233,8 @@ Nous avons tout d'abord fait la version récursive, qui était elle aussi très 
 	\end{figure}
 
 \subsection{Analyse des résultats expérimentaux}
-{\em Donner  une réponse justifiée  à la question\,: 
-			  les  temps mesurés correspondent ils  à votre analyse théorique (nombre d’opérations et défauts de cache) ?
-}\\\\
 { On obtient des résultats cohérents avec notre analyse théorique lors des test expérimentaux.\\
-  Malgré notre implémentation peux optimal en terme d'utilisation du cache, le pourcentage de cache miss est assez faible.
+  Malgré notre implémentation peu optimale en terme d'utilisation du cache, le pourcentage de cache miss est assez faible.
 }
 
 \end{document}
