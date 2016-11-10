@@ -15,7 +15,7 @@ PDF=$(LATEXSOURCE:.tex=.pdf)
 CC=gcc
 CFLAGS=-W -Wall -ansi -pedantic -std=c99 -lm -g
 
-.PHONY: all doc binary report averagetest run
+.PHONY: all doc binary report run
 
 all: binary report doc 
 
