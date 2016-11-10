@@ -133,7 +133,7 @@ Nous avons tout d'abord fait la version récursive, qui était elle aussi très 
 	 \item Nous avons à chaque appel besoin de sommer les probabilités de \verb?i? à \verb?j?. A la lecture du fichier de données, nous remplissons un tableau \verb?proba_sums? stockant les sommes des probas des indices 0 à \verb?i?.
 		 Nous accédons donc ensuite à la somme de probabilités de \verb?i? à \verb?j? en calculant \verb?proba_sums[j] - proba_sums[i]? (fonction \verb?proba_sum?), donc en coût constant.
 
-	 \item Nous avons ensuite réduit le nombre de racines à tester (nous avons trouvé cet information sur la page Wikipedia des Binary Search Trees, l'"optimisation de Knuth"). Elle consiste à remarquer que... TODO
+	 \item Nous avons ensuite réduit le nombre de racines à tester en utilisant l'"optimisation de Knuth" (nous avons trouvé cette information sur la page Wikipedia des Binary Search Trees).
  \end{itemize}
 
   \subsection{Nombre  d'opérations en pire cas \em TODO}
