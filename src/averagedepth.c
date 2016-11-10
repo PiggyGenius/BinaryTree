@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <stdint.h>
 #include <math.h>
+#include <limits.h>
 #include "../inc/averagedepth.h"
 
 
@@ -27,7 +28,7 @@ double avg_comp(uint32_t low_index, uint32_t high_index){
 	} else if (low_index + 1 == high_index) {
 		comp_array[low_index][high_index-1].avg_comp = 1;
 		comp_array[low_index][high_index-1].root_index = low_index;
-	/* We have to check if value is very close to 0, can't compare floats to 0.0 */
+		/* We have to check if value is very close to 0, can't compare floats to 0.0 */
 	} else if (fabs(comp_array[low_index][high_index-1].avg_comp) <= 10e-7) {
 		unique_call_count += 1;
 		double lower, higher, total;
@@ -58,23 +59,60 @@ double avg_comp(uint32_t low_index, uint32_t high_index){
 }
 
 
+double sum(int i, int j){
+	double s = 0;
+	for (int k = i; k <=j; k++)
+		s += proba[k];
+	return s;
+}
+
+double avg_comp3(uint32_t low_index,int32_t n){
+	/*double cost[n][n];*/
+	printf("%u\n",low_index);
+	for (int i = 0; i < n; i++) {
+		comp_array[i][i].avg_comp = proba[i];
+		comp_array[i][i].root_index = i;
+	}
+
+	for (int L=2; L<=n; L++) {
+		for (int i=0; i< n-L+1; i++) {
+			int j = i+L-1;
+			printf("sum(%d, %d) = %lf\n", i, j, proba_sum(i, j));
+			comp_array[i][j].avg_comp = (double) INT_MAX;
+			printf("Write in (%d, %d)\n", i, j);
+			for (int r=i; r<=j; r++) {
+				/*printf("r = %d, i = %d, j = %d, L = %d\n", r, i, j, L);*/
+				double c = ((r > i)? comp_array[i][r-1].avg_comp:0) + 
+					((r < j)? comp_array[r+1][j].avg_comp:0) + proba_sum(i, j);
+					printf("At r = %d, c = %lf\n", r, c);
+				if (c < comp_array[i][j].avg_comp) {
+					comp_array[i][j].avg_comp = c;
+					comp_array[i][j].root_index = r;
+					printf("Rewrite %d in (%d, %d)\n", r, i, j);
+				}
+			}
+		}
+	}
+	return comp_array[0][n-1].avg_comp;
+}
+
 /* once the depth array has been filled, build the nodes of the tree */
 Node* build_nodes(int min_index, int max_index)
 {
-	if (min_index == max_index) {
+	if (min_index > max_index) {
 		return NULL;
 	}
 
-	if (min_index > max_index) {
-		fprintf(stderr, "This should never happen\n");
-		exit(EXIT_FAILURE);
-	}
+	/*if (min_index > max_index) {*/
+		/*fprintf(stderr, "This should never happen\n");*/
+		/*exit(EXIT_FAILURE);*/
+	/*}*/
 
-	int root_index = comp_array[min_index][max_index-1].root_index;
+	int root_index = comp_array[min_index][max_index].root_index;
 	Node* n = malloc(sizeof(Node));
 	n->value = root_index;
 	n->proba = proba[root_index];
-	n->left_son = build_nodes(min_index, root_index);
+	n->left_son = build_nodes(min_index, root_index-1);
 	n->right_son = build_nodes(root_index+1, max_index);
 	return n;
 }
@@ -85,7 +123,14 @@ Node* build_nodes(int min_index, int max_index)
 Tree* build_tree(int min_index, int max_index, double min_depth)
 {
 	Tree* t = malloc(sizeof(Tree));
-	t->root = build_nodes(min_index, max_index);
+	t->root = build_nodes(min_index, max_index-1);
+	for (int i = 0; i < max_index; i++) {
+		for (int j = 0; j < max_index; j++) {
+			printf("%d ", comp_array[i][j].root_index);
+		}
+		printf("\n");
+	}
+					
 	t->avg_depth = min_depth;
 	return t;
 }
@@ -107,6 +152,7 @@ Tree* getavg(probabilities* array)
 	/* avg_comp returns the optimal average number of comparisons
 	 * the average depth is the avg_comp minus 1 */
 	min_depth = avg_comp(0, array->length) - 1.0;
+	printf("%lf\n",min_depth+1);
 	Tree* tree = build_tree(0, array->length, min_depth);
 
 	for(uint32_t i=0; i < array->length; i++)

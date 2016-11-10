@@ -82,6 +82,10 @@ int main (int argc, char *argv[]) {
 		} // switch (errno)
 		if  (codeRetour != EXIT_SUCCESS) return codeRetour ;
 	}
+	if(n == 1){
+		fprintf(stderr,"\nThe length has to be greater than 1.\n");
+		exit(0);
+	}
 
 	 freqFile = fopen(argv[2] , "r" ); 
 	 if (freqFile==NULL) {
