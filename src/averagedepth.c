@@ -15,7 +15,7 @@ uint32_t unique_call_count;
 /* returns the sum of the probabilities between
  * low_index (included) and high_index (excluded) */
 double proba_sum(uint32_t low_index,uint32_t high_index){
-	return proba_sums[high_index] - proba_sums[low_index];
+	return proba_sums[high_index+1] - proba_sums[low_index];
 }
 
 
@@ -59,15 +59,14 @@ double avg_comp(uint32_t low_index, uint32_t high_index){
 }
 
 
-double sum(int i, int j){
-	double s = 0;
-	for (int k = i; k <=j; k++)
-		s += proba[k];
-	return s;
-}
+/* double sum(int i, int j){ */
+/* 	double s = 0; */
+/* 	for (int k = i; k <=j; k++) */
+/* 		s += proba[k]; */
+/* 	return s; */
+/* } */
 
 double avg_comp3(uint32_t low_index,int32_t n){
-	/*double cost[n][n];*/
 	printf("%u\n",low_index);
 	for (int i = 0; i < n; i++) {
 		comp_array[i][i].avg_comp = proba[i];
@@ -78,6 +77,7 @@ double avg_comp3(uint32_t low_index,int32_t n){
 		for (int i=0; i< n-L+1; i++) {
 			int j = i+L-1;
 			comp_array[i][j].avg_comp = (double) INT_MAX;
+			/* for (int r=i; r<=j; r++) { */
 			for (int r=comp_array[i][j-1].root_index; r<=comp_array[i+1][j].root_index; r++) {
 				double c = ((r > i)? comp_array[i][r-1].avg_comp:0) + 
 					((r < j)? comp_array[r+1][j].avg_comp:0) + proba_sum(i, j);
@@ -146,8 +146,8 @@ Tree* getavg(probabilities* array)
 
 	/* avg_comp returns the optimal average number of comparisons
 	 * the average depth is the avg_comp minus 1 */
-	min_depth = avg_comp3(0, array->length) - 1.0;
-	printf("%lf\n",min_depth+1);
+	min_depth = avg_comp3(0, array->length);
+	printf("%lf\n",min_depth);
 	Tree* tree = build_tree(0, array->length, min_depth);
 
 	for(uint32_t i=0; i < array->length; i++)
