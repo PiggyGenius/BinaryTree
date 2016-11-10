@@ -103,15 +103,17 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Principe de notre  programme (1 point)}
-{Nous avons utilisé une méthode récursive pour le calcul du nombre moyen optimal de comparaisons (fonction \verb?avg_comp? de \verb?averagedepth.c?, appelée par \verb?get_avg?).
+{Nous avons implémenté les 2 méthodes (récursive et itérative) pour le calcul du nombre moyen optimal de comparaisons (fonction \verb?avg_comp_rec et avg_comp_iter? de \verb?averagedepth.c?, appelée par \verb?get_avg?). La version itérative est largement plus rapide, et le code la version récursive est commenté.
 
-C'est l'implémentation directe de notre première version de la formule de Bellman, à laquelle nous avons ajouté des optimisations détaillées dans la partie suivante.
+	C'est l'implémentation directe de notre première version de la formule de Bellman, à laquelle nous avons ajouté des optimisations détaillées dans la partie suivante (nous nous sommes rendus compte d'erreurs de calcul dans la 2e version de l'équation après le rendu de la 1e partie du rapport).
 
-Une fois cette fonction appelée, la fonction \verb?build_tree? construit, à partir du tableau de mémoïsation, l'arbre optimal, et le retourne.
+Une fois la fonction \verb?avg_comp_iter? appelée, la fonction \verb?build_tree? construit, à partir du tableau de mémoïsation, l'arbre optimal, et le renvoit.
 
-Enfin, la fonction \verb?treetoarray? écrit, à partir de cet arbre, le code C attendu sur la sortie standard (et peut au passage afficher la profondeur moyenne de cet arbre optimal, stockée dans l'objet \verb?Tree?).
+Enfin, la fonction \verb?treetoarray? écrit, à partir de cet arbre, le code C attendu sur la sortie standard (et peut au passage afficher la profondeur moyenne de cet arbre optimal, stockée dans l'objet \verb?Tree?).\\
 
-Nous avons manqué de temps pour pousser l'implémentation : en effet, nous avions commencé par une implémentation en Python. Nous nous sommes cependant vite rendus compte de la difficulté à effectuer le moindre calcul d'optimisation et de la lenteur du langage, et avons donc décidé de passer à du C.
+
+Nous avions commencé par une implémentation en Python. Nous nous sommes cependant vite rendus compte de la difficulté à effectuer le moindre calcul d'optimisation et de la lenteur du langage, et avons donc décidé de passer à du C.
+Nous avons tout d'abord fait la version récursive, qui était elle aussi très lente. Nous avons fini par réaliser la version itérative qui surpasse de loin la version récursive (cf. partie Performances ci-dessous).
 } 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -122,14 +124,16 @@ Nous avons manqué de temps pour pousser l'implémentation : en effet, nous avio
 
  \subsection{Choix d'implémentations}
  \begin{itemize}
-	 \item Le tableau \verb?comp_array? est un tableau de mémoïsation : à la position \verb?(i, j)?, il stocke l'indice de la racine choisie pour le sous-arbre formé des noeuds d'indices \verb?i? (inclus) à \verb?j? (exclus), et le nombre de comparaisons moyen de cet arbre optimal.
+	 \item Le tableau \verb?comp_array? est un tableau de mémoïsation : à la position \verb?(i, j)?, il stocke l'indice de la racine choisie pour le sous-arbre formé des noeuds d'indices \verb?i? à \verb?j? (les deux inclus), et le nombre de comparaisons moyen de cet arbre optimal.
 
 		 Nous n'avions pas besoin de stocker l'arbre en entier, seulement la racine : en effet, si on sait que la racine est d'indice \verb?k?, on trouve son fils gauche (resp. droit) dans la case \verb?(i, k)? (resp. \verb?(k+1, j)?).
 
 		 C'est ce tableau qui est parcouru par la fonction \verb?build_tree? pour reconstituer l'arbre optimal.
 
-	 \item Nous avons à chaque appel récursif besoin de sommer les probabilités de \verb?i? à \verb?j? par exemple. A la lecture du fichier de données, nous remplissons un tableau \verb?proba_sums? stockant les sommes des probas des indices 0 à \verb?i?.
-		 Nous accédons donc ensuite à la somme de probabilités de \verb?i? à \verb?j? en calculant \verb?proba_sums[j] - proba_sums[i]?, donc en coût constant.
+	 \item Nous avons à chaque appel besoin de sommer les probabilités de \verb?i? à \verb?j?. A la lecture du fichier de données, nous remplissons un tableau \verb?proba_sums? stockant les sommes des probas des indices 0 à \verb?i?.
+		 Nous accédons donc ensuite à la somme de probabilités de \verb?i? à \verb?j? en calculant \verb?proba_sums[j] - proba_sums[i]? (fonction \verb?proba_sum?), donc en coût constant.
+
+	 \item Nous avons ensuite réduit le nombre de racines à tester (nous avons trouvé cet information sur la page Wikipedia des Binary Search Trees, l'"optimisation de Knuth"). Elle consiste à remarquer que... TODO
  \end{itemize}
 
   \subsection{Nombre  d'opérations en pire cas \em TODO}
@@ -149,9 +153,11 @@ Nous avons manqué de temps pour pousser l'implémentation : en effet, nous avio
 	La plus grande place mémoire nécessaire vient du tableau de mémoïsation, qui stocke deux valeurs pour chaque couple d'indices, et a donc un coût de l'ordre de $n^2$ (en pratique 2 fois moins, puisque l'on ne stocke quelque chose que lorsque $low\_index < high\_index$).
 	Les tableaux de probabilités coûtent une taille $n$ en mémoire, de même que l'arbre, ce qui est donc négligeable devant $n^2$.
 
-  \subsection{Nombre de défauts de cache sur le modèle CO \em TODO}
-	\paragraph{Justification}
-	Bof
+  \subsection{Nombre de défauts de cache sur le modèle CO}
+	Mesure des défauts de cache sur le benchmark 6 : 3.2\% sur le cache D1 (le plus petit). \\
+
+	Nous avons manqué de temps pour effectuer une optimisation des défauts de cache, mais on pourrait optimiser le tableau de mémoïsation. 
+	En effet, il est parcouru en diagonale : en utilisant des indices différents, on peut sûrement effectuer des parcours en ligne et diminuer ainsi les cache miss.
 
 	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Compte rendu d'expérimentation (2 points)}

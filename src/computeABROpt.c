@@ -31,7 +31,7 @@
  */
 int main (int argc, char *argv[]) {
 	long n = 0 ; // Number of elements in the dictionary
-	 FILE *freqFile = NULL ; // File that contains n positive integers defining the relative frequence of dictinary elements  
+	FILE *freqFile = NULL ; // File that contains n positive integers defining the relative frequence of dictinary elements  
 
 	if(argc != 3){
 		fprintf(stderr, "!!!!! Usage: ./compileBST n  originalFile !!!!!\n");
@@ -52,12 +52,7 @@ int main (int argc, char *argv[]) {
 		{
 			case EXIT_SUCCESS :
 				// Conversion du long en int
-				if (resuLong > 0)
-				{
-					n = (long)resuLong;
-					fprintf(stderr, "Number of elements in the dictionary: %ld\n", n);         
-				}
-				else
+				if (resuLong <= 0)
 				{
 					(void)fprintf(stderr, "%s cannot be converted into a positive integer matching the number of elements in the dicionary.\n", argv[1]) ; 
 					codeRetour = EXIT_FAILURE;
@@ -87,11 +82,12 @@ int main (int argc, char *argv[]) {
 		exit(0);
 	}
 
-	 freqFile = fopen(argv[2] , "r" ); 
-	 if (freqFile==NULL) {
-		 fprintf (stderr, "!!!!! Error opening originalFile !!!!!\n"); 
-		 exit(EXIT_FAILURE);
-	 } 
+	freqFile = fopen(argv[2] , "r" ); 
+	if (freqFile==NULL) {
+		fprintf (stderr, "!!!!! Error opening originalFile !!!!!\n"); 
+		exit(EXIT_FAILURE);
+	} 
+
 	probabilities* array = getproba(freqFile,n);
 	fclose(freqFile); 
 
