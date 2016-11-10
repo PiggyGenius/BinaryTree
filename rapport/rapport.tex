@@ -146,10 +146,33 @@ Nous avons tout d'abord fait la version récursive, qui était elle aussi très 
 	  "les appels récursifs du programme permettent de modéliser son coût par le système d'équations aux récurrences 
 	  $$T(k_1, k_2) = ...  \mbox{~avec~les~conditions~initiales~....~} $$
 	  Le coût indiqué est obtenu en résolvant ce système par la méthode de  .... "
-	}\\
-	{On obtient le résultat suivant:}
-	\[ \sum_{l=2}^{n}{(\sum_{i=0}^{n-l}{(2+\sum_{r=i+l-1}^{n}{r))}}}
+	}\\\\
+	{ On a les couts suivants pour les différentes boucles de notre fonction:}\\
+	\begin{itemize}
+		\item $T_{1}(n) = 2n$: Première boucle qui initialise la diagonale.\\
+		\item $T_{2}(n) = \sum\limits_{l=2}^{n}{T_{3}(n,l)}$: Seconde boucle qui indique les diagonales.\\
+		\item $T_{3}(n,l) = \sum\limits_{i=0}^{n-l}{O(1) + T_{4}(n,l,i)}$: Troisième boucle pour parcourir les cases.\\
+		\item $T_{4}(n,l,i) = \sum\limits_{r=i+l-1}^{n}{O(1)}$: Dernière boucle optimisée avec Knuth.\\
+	\end{itemize}
+
+	{On obtient le résultat suivant pour $T(n)$ le nombre d'opérations pour n valeurs:}
+	\[ 
+		T(n) = 2n + \sum_{l=2}^{n}{\Bigg(\sum_{i=0}^{n-l}{\bigg(\theta(1)+\sum_{r=i+l-1}^{n}{\theta(1)\bigg)\Bigg)}}}
 	\]
+	\[
+		T(n) = 2n + \sum_{l=2}^{n}{\Bigg(\sum_{i=0}^{n-l}{\bigg(\theta(1)+(n-i-l+1)*\theta(1)\bigg)\Bigg)}}
+	\]
+	\[
+		T(n) = 2n + \sum_{l=2}^{n}{\Bigg(\sum_{i=0}^{n-l}{\theta(n-i-l)\Bigg)}}
+	\]
+	\[
+		T(n) = 2n + \sum_{l=2}^{n}{\theta((n-l)^{2})}
+	\]
+	\[
+		T(n) = 2n + (n-1)*\theta((n-2)^{2}) = 2n + \theta(n^3) = \theta(n^3)
+	\]
+	{Notre fonction opère donc en $\theta(n^3)$ en pire cas et grace à l'amélioration de Knuth, elle est en $\theta(n^2)$ en moyenne.}\\
+
   \subsection{Place mémoire requise}
   La place mémoire requise est en $O(n^2)$, avec $n$ le nombre d'éléments de l'arbre.
 	\paragraph{Justification}
