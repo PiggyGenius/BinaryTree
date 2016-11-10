@@ -146,7 +146,10 @@ Nous avons tout d'abord fait la version récursive, qui était elle aussi très 
 	  "les appels récursifs du programme permettent de modéliser son coût par le système d'équations aux récurrences 
 	  $$T(k_1, k_2) = ...  \mbox{~avec~les~conditions~initiales~....~} $$
 	  Le coût indiqué est obtenu en résolvant ce système par la méthode de  .... "
-	} 
+	}\\
+	{On obtient le résultat suivant:}
+	\[ \sum_{l=2}^{n}{(\sum_{i=0}^{n-l}{(2+\sum_{r=i+l-1}^{n}{r))}}}
+	\]
   \subsection{Place mémoire requise}
   La place mémoire requise est en $O(n^2)$, avec $n$ le nombre d'éléments de l'arbre.
 	\paragraph{Justification}

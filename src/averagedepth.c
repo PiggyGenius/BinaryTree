@@ -92,6 +92,14 @@ static double avg_comp_iter(int32_t size)
 			}
 		}
 	}
+
+	for(int i=0;i<size;i++){
+		for(int j=0;j<size;j++){
+			printf("%u ",comp_array[i][j].root_index);
+		}
+		printf("\n");
+	}
+
 	return comp_array[0][size-1].avg_comp;
 }
 
