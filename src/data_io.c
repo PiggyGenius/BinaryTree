@@ -65,7 +65,7 @@ void printtree(int32_t length){
 		return;
 	}
 	for(int32_t i=0;i<length-1;i++)
-		printf("{%d, %d},\n",tree_array[i][0],tree_array[i][1]);
+		printf("{%d, %d}, \n",tree_array[i][0],tree_array[i][1]);
 	printf("{%d, %d}",tree_array[length-1][0],tree_array[length-1][1]);
 }
 
