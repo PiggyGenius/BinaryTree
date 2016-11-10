@@ -8,6 +8,7 @@ do
 	echo "========== Benchmark $b =========="
 	for i in `seq 1 5`
 	do
+		sleep 2
 		time ./bin/computeABROpt $length benchmarks/benchmark$b.in > /dev/null
 		echo "----------------------------------"
 	done

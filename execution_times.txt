@@ -1,0 +1,186 @@
+========== Benchmark 1 ==========
+Number of elements in the dictionary: 5
+
+real	0m0.005s
+user	0m0.000s
+sys	0m0.001s
+----------------------------------
+Number of elements in the dictionary: 5
+
+real	0m0.002s
+user	0m0.000s
+sys	0m0.001s
+----------------------------------
+Number of elements in the dictionary: 5
+
+real	0m0.003s
+user	0m0.000s
+sys	0m0.001s
+----------------------------------
+Number of elements in the dictionary: 5
+
+real	0m0.003s
+user	0m0.000s
+sys	0m0.001s
+----------------------------------
+Number of elements in the dictionary: 5
+
+real	0m0.002s
+user	0m0.000s
+sys	0m0.001s
+----------------------------------
+========== Benchmark 2 ==========
+Number of elements in the dictionary: 10
+
+real	0m0.003s
+user	0m0.001s
+sys	0m0.000s
+----------------------------------
+Number of elements in the dictionary: 10
+
+real	0m0.002s
+user	0m0.001s
+sys	0m0.000s
+----------------------------------
+Number of elements in the dictionary: 10
+
+real	0m0.002s
+user	0m0.000s
+sys	0m0.002s
+----------------------------------
+Number of elements in the dictionary: 10
+
+real	0m0.002s
+user	0m0.000s
+sys	0m0.001s
+----------------------------------
+Number of elements in the dictionary: 10
+
+real	0m0.002s
+user	0m0.000s
+sys	0m0.001s
+----------------------------------
+========== Benchmark 3 ==========
+Number of elements in the dictionary: 1000
+
+real	0m0.034s
+user	0m0.025s
+sys	0m0.007s
+----------------------------------
+Number of elements in the dictionary: 1000
+
+real	0m0.029s
+user	0m0.022s
+sys	0m0.006s
+----------------------------------
+Number of elements in the dictionary: 1000
+
+real	0m0.059s
+user	0m0.045s
+sys	0m0.013s
+----------------------------------
+Number of elements in the dictionary: 1000
+
+real	0m0.061s
+user	0m0.045s
+sys	0m0.014s
+----------------------------------
+Number of elements in the dictionary: 1000
+
+real	0m0.037s
+user	0m0.024s
+sys	0m0.012s
+----------------------------------
+========== Benchmark 4 ==========
+Number of elements in the dictionary: 2000
+
+real	0m0.128s
+user	0m0.098s
+sys	0m0.028s
+----------------------------------
+Number of elements in the dictionary: 2000
+
+real	0m0.131s
+user	0m0.105s
+sys	0m0.025s
+----------------------------------
+Number of elements in the dictionary: 2000
+
+real	0m0.155s
+user	0m0.108s
+sys	0m0.022s
+----------------------------------
+Number of elements in the dictionary: 2000
+
+real	0m0.132s
+user	0m0.107s
+sys	0m0.022s
+----------------------------------
+Number of elements in the dictionary: 2000
+
+real	0m0.138s
+user	0m0.113s
+sys	0m0.023s
+----------------------------------
+========== Benchmark 5 ==========
+Number of elements in the dictionary: 3000
+
+real	0m0.319s
+user	0m0.274s
+sys	0m0.044s
+----------------------------------
+Number of elements in the dictionary: 3000
+
+real	0m0.279s
+user	0m0.233s
+sys	0m0.044s
+----------------------------------
+Number of elements in the dictionary: 3000
+
+real	0m0.298s
+user	0m0.254s
+sys	0m0.041s
+----------------------------------
+Number of elements in the dictionary: 3000
+
+real	0m0.297s
+user	0m0.254s
+sys	0m0.039s
+----------------------------------
+Number of elements in the dictionary: 3000
+
+real	0m0.321s
+user	0m0.261s
+sys	0m0.047s
+----------------------------------
+========== Benchmark 6 ==========
+Number of elements in the dictionary: 5000
+
+real	0m0.890s
+user	0m0.787s
+sys	0m0.100s
+----------------------------------
+Number of elements in the dictionary: 5000
+
+real	0m1.011s
+user	0m0.886s
+sys	0m0.119s
+----------------------------------
+Number of elements in the dictionary: 5000
+
+real	0m0.911s
+user	0m0.786s
+sys	0m0.123s
+----------------------------------
+Number of elements in the dictionary: 5000
+
+real	0m0.951s
+user	0m0.842s
+sys	0m0.106s
+----------------------------------
+Number of elements in the dictionary: 5000
+
+real	0m0.923s
+user	0m0.797s
+sys	0m0.123s
+----------------------------------
