@@ -118,9 +118,6 @@ Nous avons tout d'abord fait la version récursive, qui était elle aussi très 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Analyse du coût théorique (2 points)}
-{\em Donner ici l'analyse du coût théorique de votre programme en fonction du nombre $n$ d'éléments dans le dictionnaire.
- Pour chaque coût, donner la formule qui le caractérise (en justifiant brièvement pourquoi cette formule correspond à votre programme), 
- puis l'ordre du coût en fonction de $n$ en notation $\Theta$ de préférence, sinon $O$.}
 
  \subsection{Choix d'implémentations}
  \begin{itemize}
@@ -136,9 +133,9 @@ Nous avons tout d'abord fait la version récursive, qui était elle aussi très 
 	 \item Nous avons ensuite réduit le nombre de racines à tester en utilisant l'"optimisation de Knuth" (nous avons trouvé cette information sur la page Wikipedia des Binary Search Trees).
  \end{itemize}
 
-  \subsection{Nombre  d'opérations en pire cas \em TODO}
-	\paragraph{Justification\,: }
-	{ On a les couts suivants pour les différentes boucles de notre fonction:}\\
+  \subsection{Nombre  d'opérations en pire cas}
+	\paragraph{Justification}
+	{ On a les coûts suivants pour les différentes boucles de notre fonction:}\\
 	\begin{itemize}
 		\item $T_{1}(n) = 2n$: Première boucle qui initialise la diagonale.\\
 		\item $T_{2}(n) = \sum\limits_{l=2}^{n}{T_{3}(n,l)}$: Seconde boucle qui indique les diagonales.\\
@@ -171,7 +168,7 @@ Nous avons tout d'abord fait la version récursive, qui était elle aussi très 
 	{Notre fonction opère donc en $\theta(n^3)$ en pire cas et grace à l'amélioration de Knuth, elle est en $\theta(n^2)$ en moyenne.}\\
 
   \subsection{Place mémoire requise}
-  La place mémoire requise est en $O(n^2)$, avec $n$ le nombre d'éléments de l'arbre.
+  La place mémoire requise est en $\theta(n^2)$, avec $n$ le nombre d'éléments de l'arbre.
 	\paragraph{Justification}
 	La plus grande place mémoire nécessaire vient du tableau de mémoïsation, qui stocke deux valeurs pour chaque couple d'indices, et a donc un coût de l'ordre de $n^2$ (en pratique 2 fois moins, puisque l'on ne stocke quelque chose que lorsque $low\_index < high\_index$).
 	Les tableaux de probabilités coûtent une taille $n$ en mémoire, de même que l'arbre, ce qui est donc négligeable devant $n^2$.
