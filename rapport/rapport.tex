@@ -175,14 +175,12 @@ Nous avons tout d'abord fait la version récursive, qui était elle aussi très 
 	  Les mesures de temps peuvent être effectuées en lançant le script \verb?time_test.sh?, qui affiche le résultat des appels à \verb?time? sur la sortie standard.
 	  Ce script exécute pour chaque benchmark le même test 5 fois de suite.
 	  Nous avons ensuite entré ces valeurs dans un tableur et tracé le graphe ci-dessous.
-
+	  Le fichier \verb?execution_times.txt? contient un résultat de \verb?time_test.sh?, qui nous a servi à remplir le tableau ci-dessous.
+	\newpage
   \subsection{Mesures expérimentales}
-	{\em Compléter le tableau suivant par les temps d'exécution mesurés pour chacun des 6 benchmarks imposés
-			  (temps minimum, maximum et moyen sur 5 exécutions)
-	}\\
-	{Les mesures ont été effectuées sur la fonction itérative \verb?avg_comp_iter?.}
+	Les mesures ont été effectuées sur la fonction itérative \verb?avg_comp_iter?.
 
-	\begin{figure}[h]
+	\begin{figure}[!h]
 		\begin{center}
 			\begin{tabular}{|l||r||r|r|r||}
 				\hline
@@ -207,11 +205,11 @@ Nous avons tout d'abord fait la version récursive, qui était elle aussi très 
 			\end{tabular}
 			\caption{Mesures des temps minimum, maximum et moyen de 5 exécutions pour les 6 benchmarks.}
 			\label{table-temps}
-		\end{center}
-	\end{figure}
 
-	\begin{figure}[h]
-		\includegraphics[scale=0.6]{avg_comp_iter_graph.png}
+			\vspace{2cm}
+			\includegraphics[scale=0.6]{avg_comp_iter_graph.png}
+			\caption{Temps d'exécution minimum, moyen et maximum en fonction du nombre de noeud}
+		\end{center}
 	\end{figure}
 
 \subsection{Analyse des résultats expérimentaux}
