@@ -138,15 +138,6 @@ Nous avons tout d'abord fait la version récursive, qui était elle aussi très 
 
   \subsection{Nombre  d'opérations en pire cas \em TODO}
 	\paragraph{Justification\,: }
-	{\em La justification peut être par exemple de la forme: \\ 
-	   "Le programme itératif contient les boucles $k_1=...$, $k_2= ...$ etc correspondant à la somme 
-	  $$T(n_1, n_2, c_1, c_2) = \sum_{k_1=...}^{...} ... \sum ... + \sum_{i=...}^{...} ...$$ 
-	  somme que nous avons calculée (ou majorée) par la technique de  ... " \\
-	  ou  encore\,:  \\
-	  "les appels récursifs du programme permettent de modéliser son coût par le système d'équations aux récurrences 
-	  $$T(k_1, k_2) = ...  \mbox{~avec~les~conditions~initiales~....~} $$
-	  Le coût indiqué est obtenu en résolvant ce système par la méthode de  .... "
-	}\\\\
 	{ On a les couts suivants pour les différentes boucles de notre fonction:}\\
 	\begin{itemize}
 		\item $T_{1}(n) = 2n$: Première boucle qui initialise la diagonale.\\
@@ -169,7 +160,13 @@ Nous avons tout d'abord fait la version récursive, qui était elle aussi très 
 		T(n) = 2n + \sum_{l=2}^{n}{\theta((n-l)^{2})}
 	\]
 	\[
-		T(n) = 2n + (n-1)*\theta((n-2)^{2}) = 2n + \theta(n^3) = \theta(n^3)
+		T(n) = 2n + \sum_{l=2}^{n}{\theta(n^2)} + \sum_{l=2}^{n}{\theta(l^2)} -\sum_{l=2}^{n}{\theta(2nl)}
+	\]
+	\[
+		T(n) = 2n + \theta((n-2+1)n^2) + \theta(\frac{n(n+1)(2n+1)}{6}) -\theta(2n(\frac{(n-1)(2+n)}{2}))
+	\]
+	\[
+		T(n) = \theta(n^3)\\
 	\]
 	{Notre fonction opère donc en $\theta(n^3)$ en pire cas et grace à l'amélioration de Knuth, elle est en $\theta(n^2)$ en moyenne.}\\
 
